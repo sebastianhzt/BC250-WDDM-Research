@@ -1,0 +1,23 @@
+{
+  "checked_date": "2026-10-04",
+  "sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/accessing-device-configuration-space",
+      "scope": "Use parent bus interface/IRPs; PnP resources normally sufficient"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/irp-mn-query-interface",
+      "scope": "PASSIVE query; provider-owned reference; paired dereference; no later callbacks"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/ns-wdm-_bus_interface_standard",
+      "scope": "Native layout and GetBusData versus forbidden Set/GetDMA"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/obtaining-device-configuration-information-at-irql---dispatch-level",
+      "scope": "Bus numbers dynamic; avoid direct ports; lifetime example"
+    }
+  ],
+  "wdk_version": "10.0.26100.0",
+  "real_adapter_implemented": false
+}
