@@ -1,0 +1,18 @@
+{
+  "scope": "offline metadata model; no actual power/PnP implementation",
+  "checked_utc_date": "2026-10-04",
+  "sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-keacquirespinlock",
+      "use": "KSPIN_LOCK acquire/release restores IRQL; keep metadata critical section bounded and nonpageable"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/ne-wdm-_device_power_state",
+      "use": "explicit numeric power inputs: unknown 0, D0 1, D1 2, D2 3, D3 4"
+    }
+  ],
+  "local_frozen_header": "../diagnostic-package-build22-20261004/source/inc/amdbc250_ioctl.h",
+  "local_frozen_pnp_source": "../diagnostic-package-build22-20261004/source/src/kmd/amdbc250_dream_pnp.c",
+  "source_coherence_assumed_not_implemented": true,
+  "hardware_tested": false
+}
