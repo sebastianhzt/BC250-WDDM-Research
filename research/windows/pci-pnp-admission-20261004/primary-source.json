@@ -1,0 +1,19 @@
+{
+  "checked_date": "2026-10-04",
+  "sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/run-down-protection",
+      "claim": "Rundown blocks entrants and waits holders, not mutual exclusion or pointer publication"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/handling-an-irp-mn-surprise-removal-request",
+      "claim": "Device may disappear: admission/rundown cannot prove physical availability"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/irp-mn-query-interface",
+      "claim": "Provider reference and completion/lifetime rules for future real query"
+    }
+  ],
+  "real_pnp_or_power_backend": false,
+  "wdk_version": "10.0.26100.0"
+}
