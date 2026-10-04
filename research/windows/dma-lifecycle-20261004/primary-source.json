@@ -1,0 +1,19 @@
+{
+  "scope": "Original serialized RAM lifecycle, not Windows PnP/rundown",
+  "local_sources": [
+    "research/windows/dma-bridge-20261004/bc250_dma_bridge.h",
+    "research/windows/dma-bridge-20261004/test-bridge.c",
+    "research/windows/dma-windows-20261004/bc250_dma_adapter.c",
+    "inc/dma-owner-20261003/bc250_dma_owner.h",
+    "inc/vm-cpu-session-20261003/bc250_vm_cpu_session.h",
+    "research/windows/vm-cpu-backend-20261003/test-vm-cpu-backend.c"
+  ],
+  "windows_reference_manifest": "research/windows/dma-windows-20261004/primary-source.json",
+  "source_baseline": "43f826dbadbab8bf9dd0d4b606e1bfb5d2ef82b6",
+  "new_external_implementation_copied": false,
+  "production_execution_permitted": false,
+  "lifecycle_kernel_integrated": false,
+  "real_pnp_rundown_validated": false,
+  "asynchronous_cancellation_implemented": false,
+  "w2p_memory_ownership_proven": false
+}
