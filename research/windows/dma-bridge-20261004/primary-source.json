@@ -1,0 +1,18 @@
+{
+  "scope": "Original RAM-only bridge of existing source; no real Windows resource ownership",
+  "local_sources": [
+    "research/windows/dma-windows-20261004/bc250_dma_adapter.c",
+    "research/windows/dma-windows-20261004/bc250_dma_adapter.h",
+    "research/windows/dma-windows-20261004/mock-wdm.h",
+    "inc/dma-owner-20261003/bc250_dma_owner.h",
+    "inc/dma-runs-20261003/bc250_dma_runs.h",
+    "inc/vm-cpu-session-20261003/bc250_vm_cpu_session.h"
+  ],
+  "windows_reference_manifest": "research/windows/dma-windows-20261004/primary-source.json",
+  "source_baseline": "bd27d05e27df0471e74675df3b6aa209ad65b87a",
+  "new_external_implementation_copied": false,
+  "production_execution_permitted": false,
+  "bridge_kernel_integrated": false,
+  "asynchronous_cancellation_implemented": false,
+  "w2p_memory_ownership_proven": false
+}
