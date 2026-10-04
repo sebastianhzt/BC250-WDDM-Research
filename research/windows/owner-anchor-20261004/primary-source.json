@@ -1,0 +1,32 @@
+{
+  "source_baseline": "6e714d55de52cd8513790b7a02164060be0ebdf7",
+  "scope": "NEW_RAM_OWNER_REQUEST_WORKER_CALLBACK_MODEL",
+  "protected_source_sha256_lf": {
+    "research/windows/dma-windows-20261004/bc250_dma_adapter.h": "f4aacae0529f419ae48c7340e7fac26b1ee19d4d3337d24990139edf5fb41fb2",
+    "research/windows/dma-windows-20261004/bc250_dma_adapter.c": "e8905ef2ac418b6f7d9c09203df782fcaf54dfcadf771d3fc5a03103442d16ed",
+    "research/windows/dma-gate-20261004/bc250_dma_gate.h": "8866f42b5e059d1e42f6f7f6c1e718594a0414dadc1389c6c084e8f6705ce3b4",
+    "research/windows/dma-gate-20261004/bc250_dma_gate.c": "0d0552845e2254581cecc15dbac96454c2fd96fb5c40da45c796341926dc570b",
+    "research/windows/dma-capture-20261004/bc250_dma_capture.h": "f727aacc13c4f446c67320884ae2f4a2242bb5d25a03155eeaa624f0bd145fa9",
+    "research/windows/dma-capture-20261004/bc250_dma_capture.c": "22f9cd6126eecb543fd5ac15ad7d4c3e0f083486ee3135dec124b778937fd0bd",
+    "research/windows/snapshot-cpu-20261004/bc250_snapshot_cpu.h": "895f127a971ebc7f1c50f3ce9c19d1ff4806c2521adac779f0ec2b00bbd0d12d",
+    "research/windows/snapshot-cpu-20261004/test-snapshot-cpu.c": "83d9869a6d983131fcff243a08169d6c1698b6f9aa57df67db4c8f1c2de4fad1",
+    "inc/address-domains-20261003/bc250_address_domains.h": "21b3406ad79cd1a9ae396a220c97f64b4da07c2682030e05018d467eb3dae4d3",
+    "build.bat": "871a9589a7cf561f1ae5262fe54d4d558e9b6c0f22ed88237c24717c2cede7d4",
+    "src/kmd/amdbc250_dream_kmd.c": "6a559f990d48f5864f2675440a2709f323e02b085cf563ae4c78025e1aa0f085",
+    "research/windows/domain-backend-20261003/CREDITS.txt": "2074a4cbceb76262ad0c2c188eeecca916d5badc781aa1f7d24861006941920f",
+    "research/windows/dma-consumer-contract-20261004/requirements.json": "cfa7007162c36c73b226e74a52d831c810361381d5688dcff6d4c06362456094",
+    "research/windows/dma-consumer-contract-20261004/verify-contract.py": "37e652cbffe30358d7860b94dc77005aaa47f9517545e9b37c9bfd4a78504eae",
+    "research/windows/snapshot-cpu-20261004/README.txt": "21f4ec4cdca37c8e1be89c599e9290193ca2ee28e56d8aac4f5e299c5e097403"
+  },
+  "implementation_copied_from_external": false,
+  "production_execution_allowed": false,
+  "real_dma_permitted": false,
+  "hardware_tested": false,
+  "installable_package": false,
+  "predecessor_c_suites_rerun": false,
+  "local_sources": [
+    "research/windows/dma-consumer-contract-20261004/requirements.json",
+    "research/windows/snapshot-cpu-20261004/README.txt"
+  ],
+  "primary_contract_references": "research/windows/dma-consumer-contract-20261004/primary-source.json"
+}
