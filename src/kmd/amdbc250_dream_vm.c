@@ -41,6 +41,7 @@ Environment:
 --*/
 
 #include "amdbc250_dream_kmd.h"
+#include "passive-port-20261003/bc250_passive_policy.h"
 
 /* Forward declarations */
 static NTSTATUS DreamV3VmAllocatePageTable(
@@ -114,6 +115,10 @@ static ULONG64 DreamV3VmEncodePte(
 NTSTATUS
 DreamV3GartInitialize(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     KdPrintEx((DPFLTR_IHVVIDEO_ID, DPFLTR_INFO_LEVEL,
                "AMDBC250-DREAM-V4.3: GART initialization started\n"));
 
@@ -182,6 +187,10 @@ DreamV3GartMapPage(
     _In_ ULONG Flags
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     PULONG GartEntry;
     ULONG64 PteValue;
 
@@ -222,6 +231,10 @@ DreamV3GartUnmapPage(
     _In_ ULONG GartIndex
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     PULONG GartEntry;
 
     if (GartIndex >= DevExt->Memory.GartTable.NumEntries) {
@@ -255,6 +268,10 @@ DreamV3GartAllocateRange(
     _In_ ULONG NumPages
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return 0xFFFFFFFFUL;
+#endif
     ULONG StartIndex = 0;
 
     /* Find consecutive free entries */
@@ -287,6 +304,10 @@ DreamV3GartAllocateRange(
 NTSTATUS
 DreamV3VmInitialize(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     NTSTATUS Status;
     ULONG VmId;
 
@@ -327,6 +348,10 @@ DreamV3VmInitialize(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 NTSTATUS
 DreamV3VmShutdown(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     ULONG VmId;
 
     KdPrintEx((DPFLTR_IHVVIDEO_ID, DPFLTR_INFO_LEVEL,
@@ -370,6 +395,10 @@ DreamV3VmAllocatePageTable(
     _Out_ PDREAM_V3_PAGE_TABLE PageTable
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     PHYSICAL_ADDRESS PhysAddr, LowAddress, HighAddress, BoundaryMultiple;
     PVOID VirtAddr;
     SIZE_T Size = PAGE_SIZE;
@@ -410,6 +439,10 @@ DreamV3VmFreePageTable(
     _In_ PDREAM_V3_PAGE_TABLE PageTable
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return;
+#endif
     UNREFERENCED_PARAMETER(DevExt);
 
     if (PageTable->VirtualAddress != NULL) {
@@ -435,6 +468,10 @@ DreamV3VmCreateContext(
     _Out_ PDREAM_V3_VM_CONTEXT* OutContext
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     NTSTATUS Status = STATUS_SUCCESS;
     ULONG VmId = 0;
     PDREAM_V3_VM_CONTEXT VmCtx;
@@ -517,6 +554,10 @@ DreamV3VmDestroyContext(
     _In_ ULONG VmId
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     PDREAM_V3_VM_CONTEXT VmCtx;
     PLIST_ENTRY Entry;
     PDREAM_V3_VM_ALLOCATION Alloc;
@@ -602,6 +643,10 @@ DreamV3VmMapRange(
     _In_ ULONG Flags
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     NTSTATUS Status;
     ULONG64 CurrentVa = VirtualAddress;
     ULONG64 EndVa = VirtualAddress + SizeInBytes;
@@ -659,6 +704,10 @@ DreamV3VmInsertMapping(
     _In_ ULONG Flags
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     ULONG Pml4Index, PdIndex, PtIndex, PageOffset;
     PULONG64 Pml4, Pd, Pt;
     PHYSICAL_ADDRESS PdPhys, PtPhys;
@@ -730,6 +779,10 @@ DreamV3VmUnmapRange(
     _In_ SIZE_T SizeInBytes
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     ULONG64 CurrentVa = ALIGN_DOWN_BY(VirtualAddress, PAGE_SIZE);
     ULONG64 EndVa = CurrentVa + ALIGN_UP_BY(SizeInBytes, PAGE_SIZE);
     ULONG NumPages = 0;
@@ -790,6 +843,10 @@ DreamV3VmInvalidateTLB(
     _In_ ULONG VmId
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     ULONG VmCntl;
 
     if (VmId >= AMDBC250_MAX_VMIDS) {
@@ -833,6 +890,10 @@ DreamV3VmInvalidateTLB(
 NTSTATUS
 DreamV3VmConfigureSystemAperture(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     PHYSICAL_ADDRESS FbBase, FbTop;
 
     KdPrintEx((DPFLTR_IHVVIDEO_ID, DPFLTR_INFO_LEVEL,
@@ -985,6 +1046,10 @@ DreamV3DdiBuildPagingBuffer(
     _Inout_ DXGKARG_BUILDPAGINGBUFFER   *pBuildPagingBuffer
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     PDREAM_V3_DEVICE_EXTENSION DevExt = (PDREAM_V3_DEVICE_EXTENSION)hAdapter;
 
     if (DevExt == NULL || pBuildPagingBuffer == NULL) {
@@ -1020,6 +1085,10 @@ DreamV3VmEvictMemory(
     _In_ SIZE_T SizeInBytes
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     UNREFERENCED_PARAMETER(DevExt);
     UNREFERENCED_PARAMETER(VmCtx);
     UNREFERENCED_PARAMETER(VirtualAddress);
@@ -1043,6 +1112,10 @@ DreamV3VmRestoreMemory(
     _In_ SIZE_T SizeInBytes
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     UNREFERENCED_PARAMETER(DevExt);
     UNREFERENCED_PARAMETER(VmCtx);
     UNREFERENCED_PARAMETER(VirtualAddress);

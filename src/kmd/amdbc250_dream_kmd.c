@@ -32,6 +32,11 @@ Environment:
 #include "amdbc250_dream_kmd.h"
 #include "amdbc250_ioctl.h"
 #include "amdbc250_psp.h"
+#include "passive-port-20261003/bc250_passive_policy.h"
+#include "upstream-integration-20261003/bc250_pm4_bounds.h"
+
+/* Research port 2026-10-03: bounded CPU writers and closed GPU entry points.
+ * This branch is compile-only, NOT a driver installation candidate. */
 
 /* ===========================================================================
    PSP KM (GPCOM) ring - CORRECT MP0 C2PMSG block.
@@ -95,6 +100,7 @@ static NTSTATUS DreamV3AllocVidMem(
     _Out_ PULONG64 OutVa
     )
 {
+    if (!BC250_PASSIVE_GPU_RUNTIME_ENABLED) return STATUS_NOT_SUPPORTED;
     NTSTATUS status = STATUS_INSUFFICIENT_RESOURCES;
     SIZE_T allocSize = (SIZE_T)RequestedSize;
     allocSize = (allocSize + 0xFFF) & ~0xFFFULL;
@@ -216,6 +222,7 @@ VOID DreamV3MarkHwInitStep(ULONG Step);
 static BOOLEAN
 DreamV3DisplayWritesEnabled(VOID)
 {
+    if (!BC250_PASSIVE_GPU_RUNTIME_ENABLED) return FALSE;
     UNICODE_STRING Path;
     RtlInitUnicodeString(&Path,
         L"\\Registry\\Machine\\SYSTEM\\CurrentControlSet\\Services\\atikmdag");
@@ -766,6 +773,7 @@ DreamV3DdiStartDevice(
     _Out_ PULONG                    NumberOfChildren
     )
 {
+    if (!BC250_PASSIVE_GPU_RUNTIME_ENABLED) return STATUS_NOT_SUPPORTED;
     PDREAM_V3_DEVICE_EXTENSION DevExt = (PDREAM_V3_DEVICE_EXTENSION)MiniportDeviceContext;
     NTSTATUS Status;
 
@@ -1081,6 +1089,7 @@ DreamV3DdiResetDevice(
     _In_ PVOID MiniportDeviceContext
     )
 {
+    if (!BC250_PASSIVE_GPU_RUNTIME_ENABLED) return;
     PDREAM_V3_DEVICE_EXTENSION DevExt = (PDREAM_V3_DEVICE_EXTENSION)MiniportDeviceContext;
 
     KdPrintEx((DPFLTR_IHVVIDEO_ID, DPFLTR_WARNING_LEVEL,
@@ -1233,6 +1242,7 @@ DreamV3DdiInterruptRoutine(
     _In_ ULONG  MessageNumber
     )
 {
+    if (!BC250_PASSIVE_GPU_RUNTIME_ENABLED) return FALSE;
     PDREAM_V3_DEVICE_EXTENSION DevExt = (PDREAM_V3_DEVICE_EXTENSION)MiniportDeviceContext;
     ULONG IhWptr;
     BOOLEAN OurInterrupt = FALSE;
@@ -1271,6 +1281,7 @@ DreamV3DdiDpcRoutine(
     _In_ PVOID MiniportDeviceContext
     )
 {
+    if (!BC250_PASSIVE_GPU_RUNTIME_ENABLED) return;
     PDREAM_V3_DEVICE_EXTENSION DevExt = (PDREAM_V3_DEVICE_EXTENSION)MiniportDeviceContext;
     PULONG IhBase;
     ULONG WPtr, RPtr;
@@ -1490,6 +1501,8 @@ DreamV3DdiCreateAllocation(
     _Inout_ DXGKARG_CREATEALLOCATION        *pCreateAllocation
     )
 {
+    /* Do not advertise legacy contiguous RAM as Windows-owned VRAM. */
+    if (!BC250_PASSIVE_GPU_RUNTIME_ENABLED) return STATUS_NOT_SUPPORTED;
     PDREAM_V3_DEVICE_EXTENSION DevExt = (PDREAM_V3_DEVICE_EXTENSION)hAdapter;
     ULONG i;
 
@@ -1617,24 +1630,20 @@ DreamV3WritePm4Type0(
     _In_ ULONG Count
     )
 {
+    BC250_PM4_PLACEMENT placement;
+    if (!DevExt || !pValues || !DevExt->GfxRing.VirtualAddress ||
+        !Bc250Pm4Plan(DevExt->GfxRing.SizeInBytes,
+            DevExt->GfxRing.WritePointer, Count, &placement)) return;
     volatile PULONG Ring = (volatile PULONG)DevExt->GfxRing.VirtualAddress;
     ULONG WPtr = DevExt->GfxRing.WritePointer;
     ULONG Header = PM4_TYPE0_HDR(BaseRegister, Count);
-    ULONG TotalSize = sizeof(ULONG) + (Count * sizeof(ULONG));
 
     if (Ring == NULL) return;
 
-    /* A packet larger than the whole ring can never be placed: without this
-     * the wrap branch below lands WPtr at 0 and the writes below run off the
-     * end of the mapping (kernel-memory corruption, not a PM4 error). */
-    if (TotalSize > (ULONG)DevExt->GfxRing.SizeInBytes) {
-        return;
-    }
-
     /* CRITICAL: Check ring buffer bounds to prevent kernel memory corruption */
-    if (WPtr + TotalSize > (ULONG)DevExt->GfxRing.SizeInBytes) {
+    if (placement.Start != WPtr) {
         /* Ring buffer wrap - write NOP packet and reset pointer */
-        ULONG SpaceLeft = (ULONG)DevExt->GfxRing.SizeInBytes - WPtr;
+        ULONG SpaceLeft = placement.PaddingBytes;
         ULONG NopCount = SpaceLeft / sizeof(ULONG);
         
         /* Fill remaining space with NOPs */
@@ -1669,23 +1678,20 @@ DreamV3WritePm4Type3(
     _In_ ULONG Count
     )
 {
+    BC250_PM4_PLACEMENT placement;
+    if (!DevExt || !pValues || !DevExt->GfxRing.VirtualAddress ||
+        !Bc250Pm4Plan(DevExt->GfxRing.SizeInBytes,
+            DevExt->GfxRing.WritePointer, Count, &placement)) return;
     volatile PULONG Ring = (volatile PULONG)DevExt->GfxRing.VirtualAddress;
     ULONG WPtr = DevExt->GfxRing.WritePointer;
     ULONG Header = PM4_TYPE3_HDR(Opcode, Count);
-    ULONG TotalSize = sizeof(ULONG) + (Count * sizeof(ULONG));
 
     if (Ring == NULL) return;
 
-    /* See DreamV3WritePm4Type0: a packet bigger than the ring cannot be placed
-     * anywhere, so reject it instead of overrunning the mapping after a wrap. */
-    if (TotalSize > (ULONG)DevExt->GfxRing.SizeInBytes) {
-        return;
-    }
-
     /* CRITICAL: Check ring buffer bounds to prevent kernel memory corruption */
-    if (WPtr + TotalSize > (ULONG)DevExt->GfxRing.SizeInBytes) {
+    if (placement.Start != WPtr) {
         /* Ring buffer wrap - fill remaining space with NOPs */
-        ULONG SpaceLeft = (ULONG)DevExt->GfxRing.SizeInBytes - WPtr;
+        ULONG SpaceLeft = placement.PaddingBytes;
         ULONG NopCount = SpaceLeft / sizeof(ULONG);
         
         for (ULONG i = 0; i < NopCount; i++) {
@@ -1717,16 +1723,19 @@ DreamV3WriteEopFence(
     _In_ ULONG64 FenceValue
     )
 {
+    BC250_PM4_PLACEMENT placement;
+    if (!DevExt || !DevExt->GfxRing.VirtualAddress ||
+        !Bc250Pm4Plan(DevExt->GfxRing.SizeInBytes,
+            DevExt->GfxRing.WritePointer, 5U, &placement)) return;
     volatile PULONG Ring = (volatile PULONG)DevExt->GfxRing.VirtualAddress;
     ULONG WPtr = DevExt->GfxRing.WritePointer;
     PHYSICAL_ADDRESS FencePA = DevExt->GlobalFence.PhysicalAddress;
-    ULONG TotalSize = 6 * sizeof(ULONG);  /* EOP packet is 6 DWORDs */
 
     if (Ring == NULL) return;
 
     /* CRITICAL: Check ring buffer bounds */
-    if (WPtr + TotalSize > (ULONG)DevExt->GfxRing.SizeInBytes) {
-        ULONG SpaceLeft = (ULONG)DevExt->GfxRing.SizeInBytes - WPtr;
+    if (placement.Start != WPtr) {
+        ULONG SpaceLeft = placement.PaddingBytes;
         ULONG NopCount = SpaceLeft / sizeof(ULONG);
         
         for (ULONG i = 0; i < NopCount; i++) {
@@ -1890,6 +1899,7 @@ DreamV3SwPm4Process(
     _In_ ULONG Depth
     )
 {
+    if (!BC250_PASSIVE_GPU_RUNTIME_ENABLED) return STATUS_NOT_SUPPORTED;
     ULONG i = 0;
 
     /* Depth guard Gï¿½ï¿½ prevent stack overflow from nested IT_INDIRECT_BUFFER */
@@ -2172,6 +2182,7 @@ DreamV3SubmitGfxRing(
     _In_ PDREAM_V3_DEVICE_EXTENSION DevExt
     )
 {
+    if (!BC250_PASSIVE_GPU_RUNTIME_ENABLED) return;
     ULONG WPtr = DevExt->GfxRing.WritePointer;
     
     /* Only write to hardware if MMIO is mapped */
@@ -2205,6 +2216,7 @@ DreamV3DdiSubmitCommand(
     _In_ CONST DXGKARG_SUBMITCOMMAND *pSubmitCommand
     )
 {
+    if (!BC250_PASSIVE_GPU_RUNTIME_ENABLED) return STATUS_NOT_SUPPORTED;
     PDREAM_V3_DEVICE_EXTENSION DevExt = (PDREAM_V3_DEVICE_EXTENSION)hAdapter;
     KIRQL OldIrql;
     ULONG64 CurrentFence;
@@ -2334,6 +2346,7 @@ DreamV3DdiPresent(
     _Inout_ DXGKARG_PRESENT     *pPresent
     )
 {
+    if (!BC250_PASSIVE_GPU_RUNTIME_ENABLED) return STATUS_NOT_SUPPORTED;
     PDREAM_V3_DEVICE_EXTENSION DevExt;
     DXGK_ALLOCATIONLIST *pSrcAlloc = NULL;
 
@@ -2399,6 +2412,7 @@ DreamV3DdiRender(
     _Inout_ DXGKARG_RENDER  *pRender
     )
 {
+    if (!BC250_PASSIVE_GPU_RUNTIME_ENABLED) return STATUS_NOT_SUPPORTED;
     UNREFERENCED_PARAMETER(hContext);
     UNREFERENCED_PARAMETER(pRender);
     return STATUS_NOT_IMPLEMENTED;
@@ -2535,6 +2549,7 @@ DreamV3DdiCommitVidPn(
     _In_ CONST DXGKARG_COMMITVIDPN *pCommitVidPn
     )
 {
+    if (!BC250_PASSIVE_GPU_RUNTIME_ENABLED) return STATUS_NOT_SUPPORTED;
     PDREAM_V3_DEVICE_EXTENSION DevExt = (PDREAM_V3_DEVICE_EXTENSION)hAdapter;
     
     if (DevExt == NULL || pCommitVidPn == NULL) {
@@ -2572,6 +2587,7 @@ DreamV3DdiSetVidPnSourceAddress(
     _In_ CONST DXGKARG_SETVIDPNSOURCEADDRESS *pSetVidPnSourceAddress
     )
 {
+    if (!BC250_PASSIVE_GPU_RUNTIME_ENABLED) return STATUS_NOT_SUPPORTED;
     PDREAM_V3_DEVICE_EXTENSION DevExt = (PDREAM_V3_DEVICE_EXTENSION)hAdapter;
     PHYSICAL_ADDRESS SurfAddress;
     ULONG SurfaceOffset;
@@ -2622,6 +2638,7 @@ DreamV3DdiSetVidPnSourceVisibility(
     _In_ CONST DXGKARG_SETVIDPNSOURCEVISIBILITY *pSetVidPnSourceVisibility
     )
 {
+    if (!BC250_PASSIVE_GPU_RUNTIME_ENABLED) return STATUS_NOT_SUPPORTED;
     PDREAM_V3_DEVICE_EXTENSION DevExt = (PDREAM_V3_DEVICE_EXTENSION)hAdapter;
     
     if (DevExt == NULL || pSetVidPnSourceVisibility == NULL) {
@@ -2939,6 +2956,7 @@ DreamV3DdiEscape(
     _In_ CONST DXGKARG_ESCAPE*      pEscape
     )
 {
+    if (!BC250_PASSIVE_GPU_RUNTIME_ENABLED) return STATUS_NOT_SUPPORTED;
     PDREAM_V3_DEVICE_EXTENSION DevExt = (PDREAM_V3_DEVICE_EXTENSION)hAdapter;
 
     if (pEscape == NULL || pEscape->pPrivateDriverData == NULL) {
@@ -3388,6 +3406,13 @@ DreamV3DeviceControl(
     _Inout_ PIRP Irp
     )
 {
+    /* Deny before registry markers, context lookup or buffer processing. */
+    if (!BC250_PASSIVE_GPU_RUNTIME_ENABLED) {
+        Irp->IoStatus.Status = STATUS_NOT_SUPPORTED;
+        Irp->IoStatus.Information = 0;
+        IoCompleteRequest(Irp, IO_NO_INCREMENT);
+        return STATUS_NOT_SUPPORTED;
+    }
     /* CRITICAL: Only handle IRPs for our control device.
        This handler is set on g_DriverObject->MajorFunction which covers ALL
        device objects from this driver n++ including the dxgkrnl WDDM adapter.
@@ -4471,18 +4496,8 @@ DreamV3DeviceControl(
                behind the staged IOCTL. */
             { 3, AMDBC250_SMU_Q3_SEC_SET_WRITE_PTR,     SMU_ARG_SRAM_ADDR },
             { 3, AMDBC250_SMU_Q3_SEC_WRITE_THROUGH,     SMU_ARG_NONE },
-            /* Q0: SMU table DMA address setup.
-               SetDriverTableDramAddrHigh/Low point the SMU table-DMA engine at a
-               host DRAM address, and TransferTableDram2Smu (0x07) then performs
-               the transfer. An unconstrained 4KB-aligned address here would be
-               "SMU DMA to an arbitrary physical page" - an LPE primitive, and
-               exactly the hole the SMU_MSG_ARGS 0x0A path closes by pinning the
-               address to DevExt->SmuUnlockPa. SMU_ARG_DRIVER_PA applies that same
-               pin here so both entry points agree. */
-            { 0, AMDBC250_SMU_Q0_SET_DRV_TBL_ADDR_HI,   SMU_ARG_DRIVER_PA },
-            { 0, AMDBC250_SMU_Q0_SET_DRV_TBL_ADDR_LO,   SMU_ARG_DRIVER_PA },
-            { 0, AMDBC250_SMU_Q0_TRANSFER_TBL_SMU2DRAM, SMU_ARG_NONE },
-            { 0, AMDBC250_SMU_Q0_TRANSFER_TBL_DRAM2SMU, SMU_ARG_NONE },
+            /* DMA table transfers omitted: Windows buffer ownership and
+             * GPU translation have not been validated. */
             /* Q0: GFX frequency control (governor sequence) */
             { 0, AMDBC250_SMU_Q0_QUERY_GFXCLK,         SMU_ARG_GFX_QUERY },
             /* Q0 0x18 sets the active compute-unit count. The SMU rejects this
@@ -9809,6 +9824,7 @@ DreamV3SdmaCopyBuffer(
     _In_ SIZE_T SizeBytes
     )
 {
+    if (!BC250_PASSIVE_GPU_RUNTIME_ENABLED) return STATUS_NOT_SUPPORTED;
     volatile PULONG Ring;
     ULONG WPtr;
     ULONG DwordsNeeded;
@@ -9890,6 +9906,7 @@ DreamV3SdmaFillBuffer(
     _In_ ULONG FillValue
     )
 {
+    if (!BC250_PASSIVE_GPU_RUNTIME_ENABLED) return STATUS_NOT_SUPPORTED;
     volatile PULONG Ring;
     ULONG WPtr;
 
@@ -9961,6 +9978,7 @@ DreamV3TdrReset(
     _In_ PDREAM_V3_DEVICE_EXTENSION DevExt
     )
 {
+    if (!BC250_PASSIVE_GPU_RUNTIME_ENABLED) return STATUS_NOT_SUPPORTED;
     NTSTATUS Status;
     ULONG TimeoutUs;
 

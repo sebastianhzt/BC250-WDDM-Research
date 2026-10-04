@@ -6,6 +6,7 @@
  Windows before: PSP before GART/VM (inverted) + golden 1/34 + PSP ring stub. This file fixes order and uses DF 00:00.0 B8/BC primary for SMN.
 --*/
 #include "amdbc250_dream_kmd.h"
+#include "passive-port-20261003/bc250_passive_policy.h"
 #include "amdbc250_psp.h"
 
 // Forward from existing hw_init.c / vm.c / psp.c / golden.c / rlc.c
@@ -49,6 +50,10 @@ static ULONG DreamV3IsExtendedEnabled(void){
 }
 
 NTSTATUS DreamV3HwInitializeExtended(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt){
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     NTSTATUS Status=STATUS_SUCCESS;
     ULONG MaxStep=DreamV3ReadMaxStepExt();
     KdPrintEx((DPFLTR_IHVVIDEO_ID, DPFLTR_INFO_LEVEL, "AMDBC250-DREAM-V4.3: HwInitializeExtended — Linux order DF APU (GMC->PSP->GFX)\n"));
@@ -202,4 +207,9 @@ NTSTATUS DreamV3HwInitializeExtended(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt){
 }
 
 // Wrapper check — called from original DreamV3HwInitialize
-BOOLEAN DreamV3UseExtendedInit(void){ return DreamV3IsExtendedEnabled() ? TRUE : FALSE; }
+BOOLEAN DreamV3UseExtendedInit(void){
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return FALSE;
+#endif
+ return DreamV3IsExtendedEnabled() ? TRUE : FALSE; }

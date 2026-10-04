@@ -29,6 +29,7 @@ Environment:
 --*/
 
 #include "amdbc250_dream_kmd.h"
+#include "passive-port-20261003/bc250_passive_policy.h"
 #include "amdbc250_psp.h"
 
 /* Forward declarations */
@@ -153,6 +154,10 @@ DreamV3HwInitialize(
     _In_ PDREAM_V3_DEVICE_EXTENSION DevExt
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     if(DreamV3UseExtendedInit()){
         return DreamV3HwInitializeExtended(DevExt);
     }
@@ -581,6 +586,10 @@ DreamV3HwInitialize(
 NTSTATUS
 DreamV3HwReset(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     NTSTATUS Status;
     ULONG CpCntl;
 
@@ -624,6 +633,10 @@ DreamV3HwReset(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 VOID
 DreamV3HwShutdown(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return;
+#endif
     KdPrintEx((DPFLTR_IHVVIDEO_ID, DPFLTR_INFO_LEVEL,
                "AMDBC250-DREAM-V4.3: HwShutdown\n"));
 
@@ -700,6 +713,10 @@ DreamV3HwShutdown(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 VOID
 DreamV3HdpFlush(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return;
+#endif
     /* Flush HDP read cache */
     DreamV3WriteRegister(DevExt, AMDBC250_REG_HDP_MEM_COHERENCY_FLUSH_CNTL,
                          HDP_MEM_COHERENCY_FLUSH_CNTL__FLUSH_CACHE);
@@ -749,6 +766,10 @@ DreamV3HwInitFence(
     _In_ PDREAM_V3_DEVICE_EXTENSION DevExt
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     PHYSICAL_ADDRESS FencePhys;
     PVOID FenceVirt;
 
@@ -779,6 +800,10 @@ DreamV3HwInitGfxRing(
     _In_ PDREAM_V3_DEVICE_EXTENSION DevExt
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     PHYSICAL_ADDRESS RingPhys;
     PVOID RingVirt;
     ULONG RingSize = 2 * 1024 * 1024;  /* 2 MB for GFX10 */
@@ -968,6 +993,10 @@ DreamV3HwInitGfxRing(
 NTSTATUS
 DreamV3HwInitIhRing(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     PHYSICAL_ADDRESS IhPhys;
     PVOID IhVirt;
     ULONG IhSize = IH_RING_SIZE_BYTES;
@@ -1028,6 +1057,10 @@ DreamV3HwInitIhRing(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 NTSTATUS
 DreamV3HwInitSdmaRing(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     ULONG baseLo, baseHi, cntlVal;
     PHYSICAL_ADDRESS ringPhys;
     PVOID ringVirt;
@@ -1114,6 +1147,10 @@ DreamV3PspHardwareInit(
     _In_ PDREAM_V3_DEVICE_EXTENSION DevExt
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     NTSTATUS Status;
     PAMDBC250_PSP_CONTEXT PspCtx;
 
@@ -1231,6 +1268,10 @@ DreamV3PspHardwareInit(
 NTSTATUS
 DreamV3HwInitDisplay(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     UNREFERENCED_PARAMETER(DevExt);
 
     /* ======================================================================
@@ -1260,6 +1301,10 @@ DreamV3HwInitDisplay(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 static NTSTATUS
 DreamV3InitCommandProcessor(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     UNREFERENCED_PARAMETER(DevExt);
     /* Firmware loading is now handled by:
      * 1. LOAD_CP_FW IOCTL (from userspace via load-cp-fw.exe)
@@ -1280,6 +1325,10 @@ DreamV3InitCommandProcessor(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 static NTSTATUS
 DreamV3InitMemoryController(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     UNICODE_STRING Path;
     OBJECT_ATTRIBUTES Oa;
     HANDLE hKey = NULL;
@@ -1368,6 +1417,10 @@ DreamV3InitMemoryController(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 LONG
 DreamV3ReadTemperature(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return -1;
+#endif
     UNREFERENCED_PARAMETER(DevExt);
 
     /* ======================================================================
@@ -1441,6 +1494,10 @@ DreamV3WaitForRegister(
     _In_ ULONG TimeoutUs
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     ULONG Elapsed = 0;
     ULONG Value;
 
@@ -1471,6 +1528,10 @@ DreamV3AllocateContiguousMemory(
     _Out_ PPHYSICAL_ADDRESS   PhysicalAddress
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return NULL;
+#endif
     PHYSICAL_ADDRESS LowAddr = {0};
     PHYSICAL_ADDRESS HighAddr = {0};
     PHYSICAL_ADDRESS BoundaryAddr = {0};

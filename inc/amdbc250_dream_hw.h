@@ -760,8 +760,9 @@ typedef struct _DREAM_V3_DEVICE_EXTENSION *PDREAM_V3_DEVICE_EXTENSION;
 #define PM4_TYPE2_NOP                             0x80000000
 
 /* PM4 Type 3: Executive commands (GFX10 opcodes) */
+/* Modified 2026-10-03: unsigned shifts preserve valid packet bits without UB. */
 #define PM4_TYPE3_HDR(opcode, count) \
-    ((3 << 30) | (((count) - 1) << 16) | ((opcode) << 8))
+    ((3U << 30) | (((count) - 1U) << 16) | ((opcode) << 8))
 
 /* GFX10 PM4 opcodes */
 #define IT_NOP                                    0x10    /* No-operation         */

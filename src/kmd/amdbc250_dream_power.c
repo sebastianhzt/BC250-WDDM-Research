@@ -28,6 +28,7 @@ Environment:
 --*/
 
 #include "amdbc250_dream_kmd.h"
+#include "passive-port-20261003/bc250_passive_policy.h"
 
 /* Forward declarations */
 static NTSTATUS DreamV3SmuWaitForResponse(
@@ -62,6 +63,10 @@ static ULONG SmnRead(
     _In_ ULONG SmnAddr
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return 0xFFFFFFFFUL;
+#endif
     DreamV3WriteRegister(DevExt, 0x38, SmnAddr);
     KeMemoryBarrier();
     return DreamV3ReadRegister(DevExt, 0x3C);
@@ -73,6 +78,10 @@ static void SmnWrite(
     _In_ ULONG Value
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return;
+#endif
     DreamV3WriteRegister(DevExt, 0x38, SmnAddr);
     KeMemoryBarrier();
     DreamV3WriteRegister(DevExt, 0x3C, Value);
@@ -101,6 +110,10 @@ DreamV3SmuSendMessage(
     _Out_opt_ PULONG Response
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     NTSTATUS Status;
     ULONG c2p90;
 
@@ -150,6 +163,10 @@ DreamV3SmuWaitForResponse(
     _In_ ULONG TimeoutUs
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     ULONG ElapsedUs = 0;
     const ULONG PollIntervalUs = 100;
     ULONG SmuStatus;
@@ -191,6 +208,10 @@ DreamV3SmuWaitForResponse(
 NTSTATUS
 DreamV3SmuInitialize(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     NTSTATUS Status;
     ULONG SmuVersion = 0;
     ULONG DriverIf = 0;
@@ -293,6 +314,10 @@ DreamV3SmuInitialize(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 NTSTATUS
 DreamV3SmuWakeGfx(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     NTSTATUS Status;
 
     KdPrintEx((DPFLTR_IHVVIDEO_ID, DPFLTR_INFO_LEVEL,
@@ -334,6 +359,10 @@ DreamV3SmuWakeGfx(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 NTSTATUS
 DreamV3SmuShutdown(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     KdPrintEx((DPFLTR_IHVVIDEO_ID, DPFLTR_INFO_LEVEL,
                "AMDBC250-DREAM-V4.3: SMU shutdown\n"));
 
@@ -364,6 +393,10 @@ DreamV3SmuShutdown(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 NTSTATUS
 DreamV3SetPowerStateD0(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     KdPrintEx((DPFLTR_IHVVIDEO_ID, DPFLTR_INFO_LEVEL,
                "AMDBC250-DREAM-V4.3: Power state -> D0 (active)\n"));
 
@@ -394,6 +427,10 @@ DreamV3SetPowerStateD0(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 NTSTATUS
 DreamV3SetPowerStateD3(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     KdPrintEx((DPFLTR_IHVVIDEO_ID, DPFLTR_INFO_LEVEL,
                "AMDBC250-DREAM-V4.3: Power state -> D3 (lowest power)\n"));
 
@@ -420,6 +457,10 @@ DreamV3DdiSetPowerState(
     _In_ POWER_ACTION       ActionType
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     PDREAM_V3_DEVICE_EXTENSION DevExt = (PDREAM_V3_DEVICE_EXTENSION)MiniportDeviceContext;
     NTSTATUS Status = STATUS_SUCCESS;
 
@@ -471,6 +512,10 @@ DreamV3DdiSetPowerState(
 NTSTATUS
 DreamV3SetGpuClockMhz(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt, _In_ ULONG Mhz)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     if (Mhz < AMDBC250_BASE_CLOCK_MHZ || Mhz > AMDBC250_BOOST_CLOCK_MHZ) {
         KdPrintEx((DPFLTR_IHVVIDEO_ID, DPFLTR_WARNING_LEVEL,
                    "AMDBC250-DREAM-V4.3: Invalid SCLK %u MHz (range: %u-%u)\n",
@@ -491,6 +536,10 @@ DreamV3SetGpuClockMhz(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt, _In_ ULONG Mhz)
 NTSTATUS
 DreamV3SetMemoryClockMhz(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt, _In_ ULONG Mhz)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     if (Mhz < 800 || Mhz > AMDBC250_MEMORY_CLOCK_MHZ) {
         KdPrintEx((DPFLTR_IHVVIDEO_ID, DPFLTR_WARNING_LEVEL,
                    "AMDBC250-DREAM-V4.3: Invalid MCLK %u MHz\n", Mhz));
@@ -509,6 +558,10 @@ DreamV3SetMemoryClockMhz(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt, _In_ ULONG Mhz)
 NTSTATUS
 DreamV3UpdateClocks(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     ULONG TargetSclk = AMDBC250_BOOST_CLOCK_MHZ;
     LONG TempC = DevExt->CurrentTemperatureC;
 
@@ -560,6 +613,10 @@ DreamV3ReadAllThermalSensors(
     _Out_ PDREAM_V3_THERMAL_SENSORS Sensors
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     UNREFERENCED_PARAMETER(DevExt);
 
     Sensors->EdgeTempC = 45;
@@ -580,6 +637,10 @@ DreamV3ReadAllThermalSensors(
 NTSTATUS
 DreamV3UpdateFanSpeed(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     LONG TempC = DevExt->CurrentTemperatureC;
     ULONG TargetFanPercent;
     ULONG CurrentFanPercent = DevExt->PowerState.CurrentFanSpeedPercent;
@@ -612,6 +673,10 @@ DreamV3UpdateFanSpeed(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 NTSTATUS
 DreamV3CheckThermalThrottle(_In_ PDREAM_V3_DEVICE_EXTENSION DevExt)
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     DREAM_V3_THERMAL_SENSORS Sensors = {0};
     NTSTATUS Status;
     LONG MaxTemp;
@@ -676,6 +741,10 @@ DreamV3GetPowerUsage(
     _Out_ PULONG PowerMilliwatts
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     UNREFERENCED_PARAMETER(DevExt);
     *PowerMilliwatts = 0;
     return STATUS_NOT_SUPPORTED;
@@ -687,6 +756,10 @@ DreamV3SetPowerLimit(
     _In_ ULONG PowerLimitWatts
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     if (PowerLimitWatts < 100 || PowerLimitWatts > 300) {
         return STATUS_INVALID_PARAMETER;
     }
@@ -705,6 +778,10 @@ DreamV3GetTelemetry(
     _Out_ PDREAM_V3_POWER_TELEMETRY Telemetry
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     if (Telemetry == NULL) {
         return STATUS_INVALID_PARAMETER;
     }
@@ -728,6 +805,10 @@ DreamV3DdiNotifyAcpiEvent(
     _Out_ PULONG            AcpiFlags
     )
 {
+#if !BC250_PASSIVE_GPU_RUNTIME_ENABLED
+    /* Closed at compile time; registry settings cannot enable this path. */
+    return STATUS_NOT_SUPPORTED;
+#endif
     PDREAM_V3_DEVICE_EXTENSION DevExt = (PDREAM_V3_DEVICE_EXTENSION)MiniportDeviceContext;
     NTSTATUS Status = STATUS_SUCCESS;
 

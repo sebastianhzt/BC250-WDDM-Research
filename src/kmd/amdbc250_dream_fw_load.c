@@ -29,6 +29,7 @@ Environment:
 
 #include "amdbc250_dream_kmd.h"
 #include "amdbc250_psp.h"
+#include "passive-port-20261003/bc250_passive_policy.h"
 
 /* Firmware type IDs (matching Linux AMDGPU_UCODE_ID) */
 #define FW_TYPE_ME      1
@@ -184,19 +185,20 @@ DreamV3LoadFirmwareFromFile(
     HANDLE handle = NULL;
     FILE_STANDARD_INFORMATION fileInfo;
 
-    /* The caller only inspects the return status, so an empty file would leave
-     * *OutData uninitialised and *OutSize undefined. That reaches
-     * Amdbc250PspAllocateFirmwareBuffer(0), which either reuses a stale buffer
-     * or calls MmAllocateContiguousMemorySpecifyCache(0, ...), and the blob
-     * then goes to the PSP with FwSize = 0. Fail explicitly instead. */
+    /* Modified for passive-port 2026-10-03: retain Keshas f3a82ee's fail-closed
+     * output initialization, then reject invalid callers, truncation and short
+     * reads. This file reader does not publish a partial firmware blob. */
     if (OutData) *OutData = NULL;
     if (OutSize) *OutSize = 0;
+    if (!FileName || !OutData || !OutSize) return STATUS_INVALID_PARAMETER;
+    if (KeGetCurrentIrql() != PASSIVE_LEVEL) return STATUS_INVALID_DEVICE_STATE;
 
     RtlInitUnicodeString(&uniName, FileName);
     InitializeObjectAttributes(&objAttr, &uniName, OBJ_CASE_INSENSITIVE | OBJ_KERNEL_HANDLE, NULL, NULL);
 
     status = ZwCreateFile(&handle, GENERIC_READ, &objAttr, &ioStatus, NULL,
-        FILE_ATTRIBUTE_NORMAL, FILE_SHARE_READ, FILE_OPEN, FILE_SYNCHRONOUS_IO_NONALERT, NULL, 0);
+        FILE_ATTRIBUTE_NORMAL, FILE_SHARE_READ, FILE_OPEN,
+        FILE_SYNCHRONOUS_IO_NONALERT | FILE_NON_DIRECTORY_FILE, NULL, 0);
     if (!NT_SUCCESS(status)) return status;
 
     status = ZwQueryInformationFile(handle, &ioStatus, &fileInfo, sizeof(fileInfo), FileStandardInformation);
@@ -204,21 +206,27 @@ DreamV3LoadFirmwareFromFile(
         ZwClose(handle);
         return status;
     }
-    if (fileInfo.EndOfFile.QuadPart == 0) {
+    if (fileInfo.EndOfFile.QuadPart <= 0 ||
+        fileInfo.EndOfFile.QuadPart > MAX_FW_SIZE) {
         ZwClose(handle);
-        return STATUS_OBJECT_NAME_NOT_FOUND;
+        return STATUS_INVALID_BUFFER_SIZE;
     }
 
     ULONG fileSize = (ULONG)fileInfo.EndOfFile.QuadPart;
     PUCHAR buffer = (PUCHAR)ExAllocatePool2(POOL_FLAG_NON_PAGED, fileSize, 'fw');
     if (!buffer) { ZwClose(handle); return STATUS_INSUFFICIENT_RESOURCES; }
 
+    RtlZeroMemory(&ioStatus, sizeof(ioStatus));
     status = ZwReadFile(handle, NULL, NULL, NULL, &ioStatus, buffer, fileSize, NULL, NULL);
     ZwClose(handle);
 
     if (!NT_SUCCESS(status)) {
         ExFreePoolWithTag(buffer, 'fw');
         return status;
+    }
+    if (ioStatus.Information != fileSize) {
+        ExFreePoolWithTag(buffer, 'fw');
+        return STATUS_END_OF_FILE;
     }
 
     *OutData = buffer;
@@ -234,6 +242,8 @@ DreamV3LoadAllFirmware(
     _In_ PDREAM_V3_DEVICE_EXTENSION DevExt
     )
 {
+    /* Passive-port: neither firmware DMA nor PSP/SMU activation is authorized. */
+    if (!BC250_PASSIVE_GPU_RUNTIME_ENABLED) return STATUS_NOT_SUPPORTED;
     NTSTATUS Status = STATUS_SUCCESS;
     UINT32 loadedCount = 0;
 
@@ -328,6 +338,8 @@ DreamV3HaltAllEngines(
     _In_ PDREAM_V3_DEVICE_EXTENSION DevExt
     )
 {
+    /* Even a halt is a live register write; refuse before touching DevExt. */
+    if (!BC250_PASSIVE_GPU_RUNTIME_ENABLED) return;
     if (!DevExt->MmioVirtualBase) return;
     
     #define BAR5_U32(off) (*(volatile UINT32 *)((PUCHAR)DevExt->MmioVirtualBase + (off)))
