@@ -1,0 +1,19 @@
+{
+  "source_baseline": "2116cfb83eb772d3553e7ed7b10cc500177d0dfb",
+  "scope": "Original fixture-only fake SG provenance into CPU models; no production address API",
+  "local_sources": [
+    "research/windows/dma-leases-20261004/bc250_dma_leases.c",
+    "research/windows/dma-leases-20261004/test-leases.c",
+    "research/windows/dma-map-leases-20261004/bc250_dma_map_leases.h",
+    "inc/dma-runs-20261003/bc250_dma_runs.h",
+    "inc/domain-backend-20261003/bc250_vm_domain_backend.h"
+  ],
+  "primary_references": [
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nc-wdm-pget_scatter_gather_list_ex",
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/performing-dma-in-64-bit-windows"
+  ],
+  "implementation_copied_from_external": false,
+  "production_execution_allowed": false,
+  "real_dma_page_binding_verified": false,
+  "hardware_tested": false
+}
