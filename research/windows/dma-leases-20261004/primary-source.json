@@ -1,0 +1,22 @@
+{
+  "source_baseline": "6c224edafaedff3f95e18ea2e3ec30b45f48229c",
+  "stage": "persistent trusted metadata lease variant; not actual map consumers",
+  "local_sources": [
+    "research/windows/dma-gate-20261004/bc250_dma_gate.c",
+    "research/windows/dma-gate-20261004/bc250_dma_gate.h",
+    "research/windows/dma-windows-20261004/bc250_dma_adapter.c",
+    "research/windows/dma-windows-20261004/bc250_dma_adapter.h",
+    "research/windows/dma-resource-20261004/test-resource.c",
+    "research/windows/dma-gate-20261004/primary-source.json"
+  ],
+  "official_contract_manifests": [
+    "research/windows/dma-windows-20261004/primary-source.json",
+    "research/windows/dma-gate-20261004/primary-source.json"
+  ],
+  "attribution": "Original project implementation and existing own fixtures; CREDITS.txt and licenses unchanged; no new external code copied",
+  "production_execution_allowed": false,
+  "real_map_consumers_supported": false,
+  "driver_integrated": false,
+  "pnp_or_concurrency_validated": false,
+  "w2p_memory_ownership": false
+}
