@@ -1,0 +1,16 @@
+{
+  "implementation": "Original Apache-2.0 CPU metadata backend; not copied from D-Ogi or Linux full functions",
+  "reused_headers": [
+    "inc/vm-source-model-20261001/bc250_vm_source_model.h",
+    "inc/upstream-integration-20261003/bc250_dma_page_list.h",
+    "inc/gart-geometry-20261001/bc250_gart_geometry.h"
+  ],
+  "numeric_facts_provenance": "research/windows/vm-source-model-20261001/primary-source.json and research/windows/upstream-integration-20261003/provenance.json",
+  "four_level_layout": "Bounded PDB2/PDB1/PDB0/PTB subset; 9-bit indices; 4KiB leaves; system DMA numeric NC codec only",
+  "ownership": "Metadata allocated by trusted caller callbacks with context identity, strict level and unique parent/slot",
+  "directories": "CPU pointers, not encoded PDEs or GPU-visible DMA tables",
+  "transaction": "Caller-exclusive, <=64 unique consecutive VA pages; prepare all paths before leaf commit; restore old leaves before freeing newly allocated nodes",
+  "not_proved": ["Windows DMA backing/lifetime", "actual VRAM reservation", "IOMMU remapping", "GPU translation", "hardware quiescence or TLB", "concurrent thread safety", "full AMD VM cache/TF/VRAM policy"],
+  "driver_production_changes": false,
+  "installed_package": false
+}

@@ -1,0 +1,68 @@
+{
+  "archive_sha256": "f848df42bd4ac31a4918188c6723660d3c6dd7591b63a6419123dcbc23ecf328",
+  "flag_shifts": {
+    "VALID": 0,
+    "SYSTEM": 1,
+    "SNOOPED": 2,
+    "TMZ": 3,
+    "EXECUTABLE": 4,
+    "READABLE": 5,
+    "WRITEABLE": 6
+  },
+  "source_files": {
+    "cachyos-7.2.8-1/drivers/gpu/drm/amd/amdgpu/amdgpu_gart.h": {
+      "sha256": "a85ed422b1cc0eabde14ef930a41e7c4970fc520e7a0f9f0ee2e7f5990442919",
+      "fact_lines": [
+        35
+      ]
+    },
+    "cachyos-7.2.8-1/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c": {
+      "sha256": "3455c27f0d6f32ab1ee1afc6dd109d2805618855ebb15bdc6b1672e29707c79e",
+      "fact_lines": [
+        173,
+        1167
+      ]
+    },
+    "cachyos-7.2.8-1/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h": {
+      "sha256": "77e800c81b2efb28d279aba03385b0c06289999e8f71afcedf1ee9ace160b2dd",
+      "fact_lines": [
+        62,
+        65,
+        70,
+        90,
+        103,
+        108,
+        114,
+        115,
+        118,
+        191,
+        465
+      ]
+    },
+    "cachyos-7.2.8-1/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c": {
+      "sha256": "c4884605ef92c494d9a55319a314e02956632e12609e96ed0af2e96ed2e29de6",
+      "fact_lines": [
+        58,
+        191,
+        416,
+        696,
+        887
+      ]
+    },
+    "cachyos-7.2.8-1/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c": {
+      "sha256": "a873c4474b85ebc56437e78de07998629004f932e2eedc9d3f54289e23bf9cb0",
+      "fact_lines": [
+        459,
+        484,
+        486,
+        743,
+        813,
+        846,
+        848
+      ]
+    }
+  },
+  "runtime_mapping_validated": false,
+  "translate_further_supported": false,
+  "source_dma44_is_not_windows_dma_proof": true
+}

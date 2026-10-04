@@ -1,0 +1,263 @@
+{
+  "schema": 1,
+  "scope": "SOURCE_DERIVED_NOT_RUNTIME_VALIDATED",
+  "archive_sha256": "f848df42bd4ac31a4918188c6723660d3c6dd7591b63a6419123dcbc23ecf328",
+  "sources_sha256": {
+    "include/asic_reg/gc/gc_10_1_0_offset.h": "a0ad8bffb3c07ec3824d306aff49c77bc40057f8760aec7a76ee58a60cc8e6a2",
+    "include/asic_reg/gc/gc_10_1_0_sh_mask.h": "cba20414ecf02e91bafdcfbff7d4ba686326f0bdaf236d1a883364f08410c167",
+    "include/cyan_skillfish_ip_offset.h": "4e3e383d212924b1378a2225edaee8c42046ebf4b19475a128985941720492d3"
+  },
+  "registers": [
+    {
+      "name": "GRBM_STATUS",
+      "base_idx": 0,
+      "base_dword": 4704,
+      "index_dword": 3492,
+      "byte_offset": 32784,
+      "header_line": 2045
+    },
+    {
+      "name": "GRBM_GFX_INDEX",
+      "base_idx": 1,
+      "base_dword": 40960,
+      "index_dword": 8704,
+      "byte_offset": 198656,
+      "header_line": 7433
+    },
+    {
+      "name": "GRBM_GFX_CNTL",
+      "base_idx": 0,
+      "base_dword": 4704,
+      "index_dword": 3522,
+      "byte_offset": 32904,
+      "header_line": 2089
+    },
+    {
+      "name": "CP_ME_CNTL",
+      "base_idx": 0,
+      "base_dword": 4704,
+      "index_dword": 3926,
+      "byte_offset": 34520,
+      "header_line": 2199
+    },
+    {
+      "name": "CP_RB0_BASE",
+      "base_idx": 0,
+      "base_dword": 4704,
+      "index_dword": 7648,
+      "byte_offset": 49408,
+      "header_line": 4707
+    },
+    {
+      "name": "CP_RB0_BASE_HI",
+      "base_idx": 0,
+      "base_dword": 4704,
+      "index_dword": 7761,
+      "byte_offset": 49860,
+      "header_line": 4929
+    },
+    {
+      "name": "CP_RB0_CNTL",
+      "base_idx": 0,
+      "base_dword": 4704,
+      "index_dword": 7649,
+      "byte_offset": 49412,
+      "header_line": 4711
+    },
+    {
+      "name": "CP_RB0_RPTR",
+      "base_idx": 0,
+      "base_dword": 4704,
+      "index_dword": 3936,
+      "byte_offset": 34560,
+      "header_line": 2213
+    },
+    {
+      "name": "CP_RB0_WPTR",
+      "base_idx": 0,
+      "base_dword": 4704,
+      "index_dword": 7668,
+      "byte_offset": 49488,
+      "header_line": 4761
+    },
+    {
+      "name": "CP_RB0_WPTR_HI",
+      "base_idx": 0,
+      "base_dword": 4704,
+      "index_dword": 7669,
+      "byte_offset": 49492,
+      "header_line": 4765
+    },
+    {
+      "name": "SPI_PG_ENABLE_STATIC_WGP_MASK",
+      "base_idx": 0,
+      "base_dword": 4704,
+      "index_dword": 4727,
+      "byte_offset": 37724,
+      "header_line": 2673
+    },
+    {
+      "name": "CC_GC_SHADER_ARRAY_CONFIG",
+      "base_idx": 0,
+      "base_dword": 4704,
+      "index_dword": 4111,
+      "byte_offset": 35260,
+      "header_line": 2341
+    },
+    {
+      "name": "RLC_PG_ALWAYS_ON_WGP_MASK",
+      "base_idx": 1,
+      "base_dword": 40960,
+      "index_dword": 19539,
+      "byte_offset": 241996,
+      "header_line": 9413
+    },
+    {
+      "name": "CP_MEC_CNTL",
+      "base_idx": 0,
+      "base_dword": 4704,
+      "index_dword": 3629,
+      "byte_offset": 33332,
+      "header_line": 2143
+    },
+    {
+      "name": "CP_HQD_ACTIVE",
+      "base_idx": 0,
+      "base_dword": 4704,
+      "index_dword": 8107,
+      "byte_offset": 51244,
+      "header_line": 5307
+    },
+    {
+      "name": "CP_HQD_VMID",
+      "base_idx": 0,
+      "base_dword": 4704,
+      "index_dword": 8108,
+      "byte_offset": 51248,
+      "header_line": 5309
+    },
+    {
+      "name": "CP_HQD_PQ_BASE",
+      "base_idx": 0,
+      "base_dword": 4704,
+      "index_dword": 8113,
+      "byte_offset": 51268,
+      "header_line": 5319
+    },
+    {
+      "name": "CP_HQD_PQ_BASE_HI",
+      "base_idx": 0,
+      "base_dword": 4704,
+      "index_dword": 8114,
+      "byte_offset": 51272,
+      "header_line": 5321
+    },
+    {
+      "name": "GCVM_L2_CNTL",
+      "base_idx": 0,
+      "base_dword": 4704,
+      "index_dword": 5600,
+      "byte_offset": 41216,
+      "header_line": 3197
+    },
+    {
+      "name": "GCVM_CONTEXT0_CNTL",
+      "base_idx": 0,
+      "base_dword": 4704,
+      "index_dword": 5664,
+      "byte_offset": 41472,
+      "header_line": 3271
+    },
+    {
+      "name": "SDMA0_GFX_RB_BASE",
+      "base_idx": 0,
+      "base_dword": 4704,
+      "index_dword": 129,
+      "byte_offset": 19332,
+      "header_line": 204
+    },
+    {
+      "name": "SCRATCH_REG0",
+      "base_idx": 1,
+      "base_dword": 40960,
+      "index_dword": 8256,
+      "byte_offset": 196864,
+      "header_line": 7125
+    },
+    {
+      "name": "SCRATCH_REG1",
+      "base_idx": 1,
+      "base_dword": 40960,
+      "index_dword": 8257,
+      "byte_offset": 196868,
+      "header_line": 7127
+    },
+    {
+      "name": "SCRATCH_REG2",
+      "base_idx": 1,
+      "base_dword": 40960,
+      "index_dword": 8258,
+      "byte_offset": 196872,
+      "header_line": 7129
+    },
+    {
+      "name": "SCRATCH_REG3",
+      "base_idx": 1,
+      "base_dword": 40960,
+      "index_dword": 8259,
+      "byte_offset": 196876,
+      "header_line": 7131
+    },
+    {
+      "name": "SCRATCH_REG4",
+      "base_idx": 1,
+      "base_dword": 40960,
+      "index_dword": 8260,
+      "byte_offset": 196880,
+      "header_line": 7133
+    },
+    {
+      "name": "SCRATCH_REG5",
+      "base_idx": 1,
+      "base_dword": 40960,
+      "index_dword": 8261,
+      "byte_offset": 196884,
+      "header_line": 7135
+    },
+    {
+      "name": "SCRATCH_REG6",
+      "base_idx": 1,
+      "base_dword": 40960,
+      "index_dword": 8262,
+      "byte_offset": 196888,
+      "header_line": 7137
+    },
+    {
+      "name": "SCRATCH_REG7",
+      "base_idx": 1,
+      "base_dword": 40960,
+      "index_dword": 8263,
+      "byte_offset": 196892,
+      "header_line": 7139
+    }
+  ],
+  "fields": {
+    "GRBM_GFX_INDEX__INSTANCE_INDEX__SHIFT": 0,
+    "GRBM_GFX_INDEX__INSTANCE_INDEX_MASK": 255,
+    "GRBM_GFX_INDEX__SA_INDEX_MASK": 65280,
+    "GRBM_GFX_INDEX__SE_INDEX_MASK": 16711680,
+    "GRBM_GFX_INDEX__SA_INDEX__SHIFT": 8,
+    "GRBM_GFX_INDEX__SE_INDEX__SHIFT": 16,
+    "GRBM_GFX_INDEX__SA_BROADCAST_WRITES_MASK": 536870912,
+    "GRBM_GFX_INDEX__INSTANCE_BROADCAST_WRITES_MASK": 1073741824,
+    "GRBM_GFX_INDEX__SE_BROADCAST_WRITES_MASK": 2147483648,
+    "GRBM_GFX_CNTL__PIPEID__SHIFT": 0,
+    "GRBM_GFX_CNTL__MEID__SHIFT": 2,
+    "GRBM_GFX_CNTL__VMID__SHIFT": 4,
+    "GRBM_GFX_CNTL__QUEUEID__SHIFT": 8,
+    "GRBM_GFX_CNTL__PIPEID_MASK": 3,
+    "GRBM_GFX_CNTL__MEID_MASK": 12,
+    "GRBM_GFX_CNTL__VMID_MASK": 240,
+    "GRBM_GFX_CNTL__QUEUEID_MASK": 1792
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "scope": "standalone CPU research; no production integration or hardware proof",
+  "upstream": {
+    "url": "https://github.com/Keshas-dev/AMD-BC-250-Windows-Driver",
+    "head": "9c657a11de52597b1aca66b8ea7f131c5ad41f00",
+    "license": "Apache-2.0; root LICENSE retained",
+    "motivating_commits": ["f3a82ee3c66e4d0f58d6e3c42c173227441a6b63", "f8cd73a16f82d074a8c035b0e29955435fafa49e", "06b98e27cf0ffcb06a201ee4a9053398edbb6b13"]
+  },
+  "dogi_design_reference": {
+    "url": "https://github.com/D-Ogi/amdgpu-wddm",
+    "head": "1b75781a3a9fbe09be784cb978d99628ada28f89",
+    "file": "docs/design/iommu-dma-remapping.md",
+    "own_code_license": "PolyForm Noncommercial 1.0.0 with Required Notices",
+    "implementation_copied": false
+  },
+  "amd_numeric_source": {
+    "archive_name": "cachyos-7.2.8-1.tar.gz",
+    "archive_sha256": "f848df42bd4ac31a4918188c6723660d3c6dd7591b63a6419123dcbc23ecf328",
+    "dma_fact_file": "cachyos-7.2.8-1/drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c",
+    "dma_fact_file_sha256": "46471329ed522132a732e6fa2c809a66e92947b793cafe4171bdb61ccae07741",
+    "dma_fact_lines": "343-381",
+    "facts": ["dma_addr_t page-list and CPU destination are distinct inputs", "no whole-list physically contiguous assumption"],
+    "complete_linux_functions_copied": false,
+    "numeric_manifests": ["research/windows/gc-source-map-20260930/catalog.json", "research/windows/gart-geometry-20261001/linux-numeric-provenance.json", "research/windows/vm-source-model-20261001/primary-source.json"]
+  },
+  "public_derivative": "Laboratory provenance reduced to source names, hashes and URLs; local archive paths and private captures omitted",
+  "acceptance": "Only a new successful run supplies acceptance; consult its local RESULT.json, not historical laboratory PASS reports",
+  "installable_package": false,
+  "hardware_permission": false
+}

@@ -1,0 +1,34 @@
+{
+  "archive_sha256": "f848df42bd4ac31a4918188c6723660d3c6dd7591b63a6419123dcbc23ecf328",
+  "sources": {
+    "cachyos-7.2.8-1/drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c": {
+      "sha256": "46471329ed522132a732e6fa2c809a66e92947b793cafe4171bdb61ccae07741",
+      "facts": [
+        [
+          533,
+          "adev->gart.num_gpu_pages = adev->gmc.gart_size / AMDGPU_GPU_PAGE_SIZE;"
+        ]
+      ]
+    },
+    "cachyos-7.2.8-1/drivers/gpu/drm/amd/amdgpu/amdgpu_gart.h": {
+      "sha256": "a85ed422b1cc0eabde14ef930a41e7c4970fc520e7a0f9f0ee2e7f5990442919",
+      "facts": [
+        [
+          35,
+          "#define AMDGPU_GPU_PAGE_SIZE 4096"
+        ]
+      ]
+    },
+    "cachyos-7.2.8-1/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c": {
+      "sha256": "a873c4474b85ebc56437e78de07998629004f932e2eedc9d3f54289e23bf9cb0",
+      "facts": [
+        [
+          741,
+          "adev->gart.table_size = adev->gart.num_gpu_pages * 8;"
+        ]
+      ]
+    }
+  },
+  "pte_encoding_validated": false,
+  "linux_allocation_not_windows_ownership": true
+}
