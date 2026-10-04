@@ -1,0 +1,20 @@
+{
+  "checked_date": "2026-10-04",
+  "sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-keacquirespinlock",
+      "claim": "DISPATCH_LEVEL; resident code/data; no recursive lock or pageable callbacks"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/introduction-to-spin-locks",
+      "claim": "Short metadata sections only; backing nonpaged and no callbacks/waits"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/run-down-protection",
+      "claim": "Object protection separate from serialization and root pointer publication"
+    }
+  ],
+  "real_pnp_or_power_backend": false,
+  "real_storage_or_pdo_lifetime_validated": false,
+  "wdk_version": "10.0.26100.0"
+}
