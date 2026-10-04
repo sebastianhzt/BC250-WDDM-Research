@@ -1,0 +1,52 @@
+{
+  "build_id": 21,
+  "public_baseline": "079c888c1dd47cebdc48ee33e4dae96838be6104",
+  "upstream_base": "9c657a11de52597b1aca66b8ea7f131c5ad41f00",
+  "origin": "Selected local PnP/ABI/tool snapshot; private laboratory not edited. New minimal WDM entry/policy/INF; no full legacy KMD imported.",
+  "original_local_source_sha256": {
+    "inc/amdbc250_ioctl.h": "f3b70ff302b4723679b57543c7f83532da4f1707838448bc78586265e15f95d2",
+    "src/kmd/amdbc250_dream_pnp.c": "944ce7430c206b518f0d9f61f69d1f8b7e0db2aa1da037da8257fd2e67a2cf11",
+    "test-tools/pci-config-preflight.c": "7e668548c01379b96798eaa43a2f692c8c3ad04899ec6c88b771500f1be85499",
+    "test-tools/diagnostic-access-preflight.c": "57c633554d9efc8c98a966ddbec79e8efa7f8d44e4a0795bf3cbc9e81f7b28df",
+    "inc/amdbc250_dream_pnp.h": "23bbf3913bcb12ef9110e3d60b1937f2f6fd517bd33bc3d86754fe05e6a15af0",
+    "test-tools/w2p-preflight.c": "a6b994fe5b2d24bb0db953ac179d68c954b5198888df07cd173c1d029de906ad",
+    "test-tools/resource-preflight.c": "a0c9c25ac529365af12f463a6d39430b579a6b40b9881713faf1d5d312c2cb7b",
+    "test-tools/pnp-binding-preflight.c": "f65320418a747c4012ea72ddbab9f42a47a0fdbe5bf4db90a59e784332f4556b"
+  },
+  "candidate_source_sha256": {
+    "inc/bc250_diag_policy.h": "eef36539e6cb71d2511849e969eed64ff316d6edb8d811865aad1fec73bd384e",
+    "inc/amdbc250_dream_pnp.h": "bce211f238ef66a94392ac06f6780d9d90252760c7720f5304b645dee881f793",
+    "test-tools/test-dispatch-fixture.c": "f526f940ae5a79d8711d89dd2d5200f3270ffec5d913a2eb4aee0b04dc29385a",
+    "inf/amdbc250_dream.inf": "d0f9f76f0a3de47a0b89391d0c19da1eb49c972a5f141123260727bd6e207f3e",
+    "test-tools/diagnostic-access-preflight.c": "0b9268acbb5e816358bb98ba2d993487e9a48be33d7f53784c97c04693d6ed51",
+    "inc/amdbc250_ioctl.h": "cf111b8443fe8eb27050a7a6e0d848a7b465ee1055fd1d8b0f04b16eba67ed77",
+    "test-tools/pnp-binding-preflight.c": "f65320418a747c4012ea72ddbab9f42a47a0fdbe5bf4db90a59e784332f4556b",
+    "test-tools/pci-config-preflight.c": "7e668548c01379b96798eaa43a2f692c8c3ad04899ec6c88b771500f1be85499",
+    "test-tools/test-diagnostic-policy.c": "62e989bbf6490faaf389ef095f7a90f817441e0bca4b535cb98a5c5727808418",
+    "src/kmd/amdbc250_dream_pnp.c": "a3b9a2b31c3a8aa9754be112df22a6fd3681390eeda39dbba441125478053864",
+    "src/kmd/bc250_diagnostic_driver.c": "8983827214fee9b5b3539c48d889837fc3d189e190ab3edd04992f1427a53a1a",
+    "test-tools/resource-preflight.c": "a0c9c25ac529365af12f463a6d39430b579a6b40b9881713faf1d5d312c2cb7b",
+    "test-tools/w2p-preflight.c": "a6b994fe5b2d24bb0db953ac179d68c954b5198888df07cd173c1d029de906ad"
+  },
+  "protected_public_source_sha256_lf": {
+    "research/windows/dma-windows-20261004/bc250_dma_adapter.h": "f4aacae0529f419ae48c7340e7fac26b1ee19d4d3337d24990139edf5fb41fb2",
+    "research/windows/dma-windows-20261004/bc250_dma_adapter.c": "e8905ef2ac418b6f7d9c09203df782fcaf54dfcadf771d3fc5a03103442d16ed",
+    "research/windows/dma-gate-20261004/bc250_dma_gate.h": "8866f42b5e059d1e42f6f7f6c1e718594a0414dadc1389c6c084e8f6705ce3b4",
+    "research/windows/dma-gate-20261004/bc250_dma_gate.c": "0d0552845e2254581cecc15dbac96454c2fd96fb5c40da45c796341926dc570b",
+    "research/windows/dma-capture-20261004/bc250_dma_capture.h": "f727aacc13c4f446c67320884ae2f4a2242bb5d25a03155eeaa624f0bd145fa9",
+    "research/windows/dma-capture-20261004/bc250_dma_capture.c": "22f9cd6126eecb543fd5ac15ad7d4c3e0f083486ee3135dec124b778937fd0bd",
+    "research/windows/snapshot-cpu-20261004/bc250_snapshot_cpu.h": "895f127a971ebc7f1c50f3ce9c19d1ff4806c2521adac779f0ec2b00bbd0d12d",
+    "research/windows/snapshot-cpu-20261004/test-snapshot-cpu.c": "83d9869a6d983131fcff243a08169d6c1698b6f9aa57df67db4c8f1c2de4fad1",
+    "inc/address-domains-20261003/bc250_address_domains.h": "21b3406ad79cd1a9ae396a220c97f64b4da07c2682030e05018d467eb3dae4d3",
+    "build.bat": "871a9589a7cf561f1ae5262fe54d4d558e9b6c0f22ed88237c24717c2cede7d4",
+    "src/kmd/amdbc250_dream_kmd.c": "6a559f990d48f5864f2675440a2709f323e02b085cf563ae4c78025e1aa0f085",
+    "research/windows/domain-backend-20261003/CREDITS.txt": "2074a4cbceb76262ad0c2c188eeecca916d5badc781aa1f7d24861006941920f",
+    "research/windows/dma-consumer-contract-20261004/requirements.json": "cfa7007162c36c73b226e74a52d831c810361381d5688dcff6d4c06362456094",
+    "research/windows/dma-consumer-contract-20261004/verify-contract.py": "37e652cbffe30358d7860b94dc77005aaa47f9517545e9b37c9bfd4a78504eae",
+    "research/windows/snapshot-cpu-20261004/README.txt": "21f4ec4cdca37c8e1be89c599e9290193ca2ee28e56d8aac4f5e299c5e097403"
+  },
+  "install_approval": false,
+  "wddm_miniport": false,
+  "screen_output_validated": false,
+  "hardware_tested": false
+}

@@ -1,0 +1,46 @@
+; Build 21 isolated WDM diagnostic candidate. Not a WDDM display miniport.
+; No UMD/firmware install, acceleration declaration or global override.
+[Version]
+Signature="$Windows NT$"
+Class=Display
+ClassGUID={4d36e968-e325-11ce-bfc1-08002be10318}
+Provider=%Provider%
+DriverVer=10/04/2026,4.3.0.29
+CatalogFile=amdbc250_dream.cat
+PnpLockdown=1
+[Manufacturer]
+%Provider%=Models,NTamd64.10.0
+[Models.NTamd64.10.0]
+%Device%=Diagnostic,PCI\VEN_1002&DEV_13FE
+[Diagnostic.NT]
+CopyFiles=DriverCopy
+[Diagnostic.NT.Services]
+AddService=atikmdag,0x00000002,DriverService
+[DriverService]
+DisplayName=%Device%
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%12%\atikmdag.sys
+LoadOrderGroup=Video
+AddReg=Disarmed
+[Disarmed]
+HKR,,HwInitGart,0x00010001,0
+HKR,,HwInitVm,0x00010001,0
+HKR,,HwInitSdmaRing,0x00010001,0
+HKR,,HwInitGfxRing,0x00010001,0
+HKR,,HwUnhaltCp,0x00010001,0
+HKR,,HwInitMemCtrl,0x00010001,0
+HKR,,DisplayWritesEnabled,0x00010001,0
+[DestinationDirs]
+DriverCopy=12
+[DriverCopy]
+atikmdag.sys
+[SourceDisksNames]
+1=%Disk%,,,
+[SourceDisksFiles]
+atikmdag.sys=1
+[Strings]
+Provider="Sebastian - BC250 WDDM Research"
+Device="AMD BC-250 Research Diagnostics (DISARMED build 21)"
+Disk="BC250 isolated diagnostic package"
