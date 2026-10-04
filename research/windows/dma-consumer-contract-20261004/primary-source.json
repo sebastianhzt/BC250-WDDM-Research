@@ -1,0 +1,14 @@
+{
+  "reviewed_date": "2026-10-04",
+  "source_baseline": "ddb76daf248b55303505905f0ac7589a8512f91f",
+  "primary_references": {
+    "get": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nc-wdm-pget_scatter_gather_list_ex",
+    "free": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nc-wdm-pfree_adapter_object",
+    "flush": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nc-wdm-pflush_adapter_buffers_ex",
+    "remove": "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/using-remove-locks",
+    "mdl": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-mmprobeandlockpages"
+  },
+  "implementation_copied_from_external": false,
+  "primary_reference_scope": "DDI contracts only, NOT proof for BC250 board or Windows-owned UMA",
+  "local_criteria": "Project-specific acceptance requirements, not Microsoft certification"
+}

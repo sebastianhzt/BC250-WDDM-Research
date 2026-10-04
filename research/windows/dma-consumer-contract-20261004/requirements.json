@@ -1,0 +1,392 @@
+{
+  "schema_version": 1,
+  "source_baseline": "ddb76daf248b55303505905f0ac7589a8512f91f",
+  "scope": "DESIGN_AND_SOURCE_AUDIT_ONLY",
+  "production_execution_allowed": false,
+  "real_dma_permitted": false,
+  "hardware_tested": false,
+  "installable_package": false,
+  "w2p_memory_ownership": false,
+  "protected_source_sha256_lf": {
+    "research/windows/dma-windows-20261004/bc250_dma_adapter.h": "f4aacae0529f419ae48c7340e7fac26b1ee19d4d3337d24990139edf5fb41fb2",
+    "research/windows/dma-windows-20261004/bc250_dma_adapter.c": "e8905ef2ac418b6f7d9c09203df782fcaf54dfcadf771d3fc5a03103442d16ed",
+    "research/windows/dma-gate-20261004/bc250_dma_gate.h": "8866f42b5e059d1e42f6f7f6c1e718594a0414dadc1389c6c084e8f6705ce3b4",
+    "research/windows/dma-gate-20261004/bc250_dma_gate.c": "0d0552845e2254581cecc15dbac96454c2fd96fb5c40da45c796341926dc570b",
+    "research/windows/dma-capture-20261004/bc250_dma_capture.h": "f727aacc13c4f446c67320884ae2f4a2242bb5d25a03155eeaa624f0bd145fa9",
+    "research/windows/dma-capture-20261004/bc250_dma_capture.c": "22f9cd6126eecb543fd5ac15ad7d4c3e0f083486ee3135dec124b778937fd0bd",
+    "research/windows/snapshot-cpu-20261004/bc250_snapshot_cpu.h": "895f127a971ebc7f1c50f3ce9c19d1ff4806c2521adac779f0ec2b00bbd0d12d",
+    "research/windows/snapshot-cpu-20261004/test-snapshot-cpu.c": "83d9869a6d983131fcff243a08169d6c1698b6f9aa57df67db4c8f1c2de4fad1",
+    "inc/address-domains-20261003/bc250_address_domains.h": "21b3406ad79cd1a9ae396a220c97f64b4da07c2682030e05018d467eb3dae4d3",
+    "build.bat": "871a9589a7cf561f1ae5262fe54d4d558e9b6c0f22ed88237c24717c2cede7d4",
+    "src/kmd/amdbc250_dream_kmd.c": "6a559f990d48f5864f2675440a2709f323e02b085cf563ae4c78025e1aa0f085",
+    "research/windows/domain-backend-20261003/CREDITS.txt": "2074a4cbceb76262ad0c2c188eeecca916d5badc781aa1f7d24861006941920f"
+  },
+  "release_order": [
+    "close_admission",
+    "drain_calls",
+    "prove_device_quiescent",
+    "retire_gpu_translations",
+    "retire_cpu_maps_and_backing",
+    "final_dma_sync",
+    "release_snapshot",
+    "free_dma_resources",
+    "release_owned_mdl_and_complete_irp",
+    "retire_external_anchor"
+  ],
+  "requirements": [
+    {
+      "id": "A01",
+      "stage": "acquire_only",
+      "status": "not_implemented",
+      "depends": [],
+      "title": "Publicacion y retirada del owner",
+      "acceptance": "Mantener owner, PDO y buffers vivos ANTES del primer acceso, incluidos entrants rechazados; integrar barrera PnP sin esperar a uno mismo.",
+      "evidence": {
+        "path": "research/windows/dma-gate-20261004/bc250_dma_gate.h",
+        "token": "Rundown does NOT solve publishing/removing this pointer or PDO lifetime."
+      },
+      "reference": "remove",
+      "real_guarantee_verified": false
+    },
+    {
+      "id": "A02",
+      "stage": "acquire_only",
+      "status": "not_implemented",
+      "depends": [
+        "A01"
+      ],
+      "title": "MDL y memoria realmente poseidos",
+      "acceptance": "Definir origen del MDL, referencia IRP o allocation propia, permisos, proceso y quien desbloquea/libera; un flag o contador no adquiere propiedad.",
+      "evidence": {
+        "path": "research/windows/dma-windows-20261004/bc250_dma_adapter.h",
+        "token": "Trusted PDO/description/locked single MDL remain alive until release/close."
+      },
+      "reference": "mdl",
+      "real_guarantee_verified": false
+    },
+    {
+      "id": "A03",
+      "stage": "acquire_only",
+      "status": "mock_only",
+      "depends": [
+        "A01",
+        "A02"
+      ],
+      "title": "Contexto y peticion unicos",
+      "acceptance": "Conservar exactamente MDL/offset/bytes/direccion; un transfer context distinto por solicitud y sin retry usando el mismo owner.",
+      "evidence": {
+        "path": "research/windows/dma-windows-20261004/bc250_dma_adapter.c",
+        "token": "owner->RequestIssued = 1U;"
+      },
+      "reference": "get",
+      "real_guarantee_verified": false
+    },
+    {
+      "id": "A04",
+      "stage": "acquire_only",
+      "status": "not_implemented",
+      "depends": [
+        "A01"
+      ],
+      "title": "Capacidades del dispositivo Windows",
+      "acceptance": "Probar PDO correcto, bus-master/SG, tabla DDI disponible, anchura y limites de la plataforma; Linux, PCI numerico y UMA no conceden esas capacidades.",
+      "evidence": {
+        "path": "research/windows/dma-windows-20261004/bc250_dma_adapter.c",
+        "token": "Capabilities are caller-supplied, NOT inferred from Linux or UMA size."
+      },
+      "reference": "get",
+      "real_guarantee_verified": false
+    },
+    {
+      "id": "A05",
+      "stage": "acquire_only",
+      "status": "mock_only",
+      "depends": [
+        "A02",
+        "A03",
+        "A04"
+      ],
+      "title": "Procedencia y bounds de SG",
+      "acceptance": "Mantener SG del proveedor inmutable hasta retiro; validar tamano variable, suma exacta, overflow, offset y ancho; nunca transformar SG DMA_LOGICAL en CPU_PA o VRAM_MC por suma de bases.",
+      "evidence": {
+        "path": "research/windows/dma-capture-20261004/bc250_dma_capture.c",
+        "token": "total != owner->Request.Bytes"
+      },
+      "reference": "get",
+      "real_guarantee_verified": false
+    },
+    {
+      "id": "A06",
+      "stage": "acquire_only",
+      "status": "mock_only",
+      "depends": [
+        "A01"
+      ],
+      "title": "Admision y orden de locks",
+      "acceptance": "Demostrar exclusividad del bundle, PASSIVE y orden gate->metadata; Stop cierra admision sin liberar; BUSY/reentry no demuestra SMP.",
+      "evidence": {
+        "path": "research/windows/dma-gate-20261004/bc250_dma_gate.h",
+        "token": "Quiesce protects API access,"
+      },
+      "reference": "remove",
+      "real_guarantee_verified": false
+    },
+    {
+      "id": "A07",
+      "stage": "acquire_only",
+      "status": "mock_only",
+      "depends": [
+        "A05",
+        "A06"
+      ],
+      "title": "Captura canonica y obligaciones",
+      "acceptance": "Snapshot publicado sigue obligando aunque Init falle; copies/Self no son security handles; buffers siguen externamente anclados.",
+      "evidence": {
+        "path": "research/windows/snapshot-cpu-20261004/bc250_snapshot_cpu.h",
+        "token": "if (m->Snapshot.Reference.Owner) m->HasSnapshot = 1U;"
+      },
+      "reference": "local",
+      "real_guarantee_verified": false
+    },
+    {
+      "id": "A08",
+      "stage": "acquire_only",
+      "status": "mock_only",
+      "depends": [
+        "A07"
+      ],
+      "title": "Separar backing numerico del OS",
+      "acceptance": "Una Snapshot retenida protege todos los aliases RAM; sus numeros no son reserva Windows, asignacion OS ni permiso de publicar PTE reales.",
+      "evidence": {
+        "path": "research/windows/snapshot-cpu-20261004/bc250_snapshot_cpu.h",
+        "token": "if (m->Session->Mappings[i].Live) return BC250_VM_SESSION_IN_USE;"
+      },
+      "reference": "local",
+      "real_guarantee_verified": false
+    },
+    {
+      "id": "A09",
+      "stage": "acquire_only",
+      "status": "not_implemented",
+      "depends": [
+        "A01",
+        "A02",
+        "A06"
+      ],
+      "title": "Cancelacion de solicitud y salida de proceso",
+      "acceptance": "Definir ownership de IRP y cancelacion antes/durante/despues del retorno sin liberar buffers in-flight; cancelacion serial actual no cancela hardware ni alloc asincrona.",
+      "evidence": {
+        "path": "research/windows/dma-windows-20261004/bc250_dma_adapter.c",
+        "token": "NOT asynchronous CancelAdapterChannel or GPU job cancellation."
+      },
+      "reference": "get",
+      "real_guarantee_verified": false
+    },
+    {
+      "id": "A10",
+      "stage": "acquire_only",
+      "status": "not_implemented",
+      "depends": [
+        "A01",
+        "A02",
+        "A09"
+      ],
+      "title": "Stop/remove/power y fallo retenido",
+      "acceptance": "Definir worker/coordinador, locks y cleanup de stop/remove/surprise/power. Cuarentena sin recuperacion no es un teardown PnP completado; no habilitar mientras falte.",
+      "evidence": {
+        "path": "research/windows/dma-gate-20261004/bc250_dma_gate.h",
+        "token": "NOT map references, MDLs, DMA ownership, PnP completion or GPU quiescence."
+      },
+      "reference": "remove",
+      "real_guarantee_verified": false
+    },
+    {
+      "id": "A11",
+      "stage": "acquire_only",
+      "status": "not_implemented",
+      "depends": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A05",
+        "A06",
+        "A07",
+        "A08",
+        "A09",
+        "A10"
+      ],
+      "title": "Aceptacion de adquisicion SIN transferencia",
+      "acceptance": "Revisar integracion separada, cancelacion, leak/Verifier y rollback para adquirir y retirar sin tocar GPU. No instalar este contrato ni abrir policy actual.",
+      "evidence": {
+        "path": "research/windows/dma-windows-20261004/bc250_dma_adapter.c",
+        "token": "return FALSE; /* Production execution gate: permanently closed. */"
+      },
+      "reference": "local",
+      "real_guarantee_verified": false
+    },
+    {
+      "id": "T01",
+      "stage": "transfer",
+      "status": "not_implemented",
+      "depends": [
+        "A11"
+      ],
+      "title": "Consumidor transfer real separado",
+      "acceptance": "Crear nuevo contrato del consumidor; no abrir la policy del candidato congelado ni conectar el header RAM a KMD.",
+      "evidence": {
+        "path": "research/windows/snapshot-cpu-20261004/bc250_snapshot_cpu.h",
+        "token": "#error Snapshot CPU association is NEVER kernel integrated"
+      },
+      "reference": "local",
+      "real_guarantee_verified": false
+    },
+    {
+      "id": "T02",
+      "stage": "transfer",
+      "status": "not_implemented",
+      "depends": [
+        "T01",
+        "A02",
+        "A03"
+      ],
+      "title": "Coherencia de datos y direccion",
+      "acceptance": "Determinar cache/pre-transfer y final sync para MDL/offset/bytes/direccion originales. Obtener handle MapRegisterBase documentado; NO deducirlo de SG/TransferContext.",
+      "evidence": {
+        "path": "research/windows/dma-windows-20261004/bc250_dma_adapter.c",
+        "token": "owner->Get = operations->GetScatterGatherListEx; owner->Free = operations->FreeAdapterObject;"
+      },
+      "reference": "flush",
+      "real_guarantee_verified": false
+    },
+    {
+      "id": "T03",
+      "stage": "transfer",
+      "status": "not_implemented",
+      "depends": [
+        "T01",
+        "T02"
+      ],
+      "title": "Finalizacion real y cancelacion GPU",
+      "acceptance": "Establecer fence/interrupt/completion genuino y prueba de hardware quiescente antes de flush/retiro. Tiempo transcurrido, Stop y refs0 no equivalen a fin.",
+      "evidence": {
+        "path": "research/windows/dma-gate-20261004/bc250_dma_gate.h",
+        "token": "NOT map references, MDLs, DMA ownership, PnP completion or GPU quiescence."
+      },
+      "reference": "flush",
+      "real_guarantee_verified": false
+    },
+    {
+      "id": "G01",
+      "stage": "gpu_publish",
+      "status": "not_implemented",
+      "depends": [
+        "T01",
+        "A05",
+        "A08"
+      ],
+      "title": "Dominio de direccion GPU validado",
+      "acceptance": "Demostrar traductor DMA_LOGICAL a entrada GPU apta, propiedad Windows y almacenamiento residente de tablas. Arithmetic y Linux no conceden permiso; W2P sigue pendiente.",
+      "evidence": {
+        "path": "inc/address-domains-20261003/bc250_address_domains.h",
+        "token": "#define BC250_AD_DMA_LOGICAL 5U"
+      },
+      "reference": "local",
+      "real_guarantee_verified": false
+    },
+    {
+      "id": "G02",
+      "stage": "gpu_publish",
+      "status": "not_implemented",
+      "depends": [
+        "G01",
+        "T03"
+      ],
+      "title": "Visibilidad PTE y retiro TLB",
+      "acceptance": "Definir publicacion, cache de GPU, invalidacion/ACK/preemption y reglas sin reutilizacion hasta retiro real probado. Rollback CPU no retira traducciones GPU.",
+      "evidence": {
+        "path": "research/windows/snapshot-cpu-20261004/bc250_snapshot_cpu.h",
+        "token": "NOT a per-map OS DMA ref, actual consumer, GPU mapping or W2P proof."
+      },
+      "reference": "local",
+      "real_guarantee_verified": false
+    },
+    {
+      "id": "R01",
+      "stage": "release",
+      "status": "mock_only",
+      "depends": [
+        "A07",
+        "A08"
+      ],
+      "title": "Cero deudas CPU conocidas",
+      "acceptance": "Retirar todos los mapas y backing numerico antes de SnapshotRelease; mantener flags de fases completadas cuando BUSY; fallo desconocido retiene obligaciones.",
+      "evidence": {
+        "path": "research/windows/snapshot-cpu-20261004/bc250_snapshot_cpu.h",
+        "token": "if (native == STATUS_SUCCESS) m->SnapshotReleased = 1U;"
+      },
+      "reference": "local",
+      "real_guarantee_verified": false
+    },
+    {
+      "id": "R02",
+      "stage": "release",
+      "status": "not_implemented",
+      "depends": [
+        "T02",
+        "T03",
+        "G02",
+        "R01"
+      ],
+      "title": "Sincronizacion final antes de devolver recursos",
+      "acceptance": "Despues de quiescencia real, hacer final sync con argumentos y handle documentados antes de liberar map registers o completar IRP. Error no autoriza continuar.",
+      "evidence": {
+        "path": "research/windows/dma-windows-20261004/bc250_dma_adapter.c",
+        "token": "owner->Free(owner->Adapter, DeallocateObject);"
+      },
+      "reference": "flush",
+      "real_guarantee_verified": false
+    },
+    {
+      "id": "R03",
+      "stage": "release",
+      "status": "not_implemented",
+      "depends": [
+        "R02",
+        "A10"
+      ],
+      "title": "Liberacion exacta y ownership de memoria",
+      "acceptance": "Devolver recursos de GetScatterGatherListEx con contrato version3, Put al final apropiado, desbloquear/liberar solo MDL propio y completar IRP una vez, sin double release.",
+      "evidence": {
+        "path": "research/windows/dma-windows-20261004/bc250_dma_adapter.c",
+        "token": "owner->Busy = 1U; owner->Put(owner->Adapter);"
+      },
+      "reference": "free",
+      "real_guarantee_verified": false
+    },
+    {
+      "id": "R04",
+      "stage": "release",
+      "status": "not_implemented",
+      "depends": [
+        "A11",
+        "T01",
+        "T02",
+        "T03",
+        "G01",
+        "G02",
+        "R01",
+        "R02",
+        "R03"
+      ],
+      "title": "Aceptacion real independiente",
+      "acceptance": "Revision/Verifier/kernel/PnP y transferencias controladas con rollback y recuperacion definidos, mas autorizacion humana especifica. Este verificador NUNCA puede aprobar ejecucion real.",
+      "evidence": {
+        "path": "research/windows/dma-windows-20261004/bc250_dma_adapter.c",
+        "token": "return FALSE; /* Production execution gate: permanently closed. */"
+      },
+      "reference": "local",
+      "real_guarantee_verified": false
+    }
+  ]
+}
