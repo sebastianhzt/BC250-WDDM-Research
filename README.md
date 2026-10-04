@@ -1,3 +1,21 @@
+# BC250-WDDM-Research: isolated research branch
+
+Modified by Sebastian on 2026-10-03. Based on Keshas-dev's project; upstream
+copyright and license notices remain intact. This branch adds original CPU
+models and a closed GPU policy; it is **not an installable driver release**.
+RAM test success does not establish W2P memory ownership, real DMA translation,
+GPU execution, Vulkan acceleration or Windows runtime safety. Do not run the
+inherited installation, firmware, UEFI or hardware-test scripts from this branch.
+No driver was installed, signed or loaded as part of these research stages.
+
+See [current CPU-domain adapter and verification instructions](research/windows/domain-backend-20261003/README.txt)
+and [credits, source pins and licensing boundaries](research/windows/domain-backend-20261003/CREDITS.txt).
+D-Ogi and amethyst8118/MetalCyan are credited as research references, not as
+endorsers or authors of these original additions. Their code/firmware is not
+imported by our new integrations. Publication of this branch is source-only.
+
+## Preserved upstream README (claims and commands are historical upstream content)
+
 > **Project status: PAUSED.** Out of new ideas, and no longer willing to spend my free time on this. The project is on hold until new ideas worth my free time come along. Everything achieved so far is documented and committed — feel free to fork and continue. And don't be shy with new ideas, no matter how silly they may seem.
 
 # AMD BC-250 Windows Driver

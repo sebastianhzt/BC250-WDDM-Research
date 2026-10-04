@@ -1,0 +1,47 @@
+BC250-WDDM-Research - attribution and source boundaries (2026-10-03)
+
+Keshas-dev and contributors - upstream project and inherited driver sources.
+Base: 9c657a11de52597b1aca66b8ea7f131c5ad41f00
+https://github.com/Keshas-dev/AMD-BC-250-Windows-Driver
+https://github.com/Keshas-dev/AMD-BC-250-Windows-Driver/blob/9c657a11de52597b1aca66b8ea7f131c5ad41f00/LICENSE
+The upstream root LICENSE declares Apache-2.0. We retain that file and the
+upstream copyright notices. Our modified driver files have research change
+notices; the root README clearly distinguishes our additions. Attribution
+does not replace the license or review of separately licensed inherited files.
+
+D-Ogi and contributors - DMA/IOMMU design reference and comparison project.
+Reviewed revision: 1b75781a3a9fbe09be784cb978d99628ada28f89
+https://github.com/D-Ogi/amdgpu-wddm
+https://github.com/D-Ogi/amdgpu-wddm/blob/1b75781a3a9fbe09be784cb978d99628ada28f89/LICENSE.md
+https://github.com/D-Ogi/amdgpu-wddm/blob/1b75781a3a9fbe09be784cb978d99628ada28f89/NOTICE
+Its own code is offered under PolyForm Noncommercial 1.0.0, with Required
+Notices; third-party files have their own terms. We have not copied D-Ogi's
+implementation into our new stages or relicensed it as Apache-2.0. Credit here
+acknowledges research guidance; it does not imply permission, endorsement or
+Windows DMA support in our project.
+
+amethyst8118 and MetalCyan contributors - macOS BC-250 reference work.
+Reviewed revision: 4382dfa9daad77c6b83bcae0ae658a0e1015071d
+https://github.com/amethyst8118/MetalCyan
+https://github.com/amethyst8118/MetalCyan/blob/4382dfa9daad77c6b83bcae0ae658a0e1015071d/LICENSE
+Source is offered under TSNPL 1.5, with noncommercial distribution and license
+retention conditions; AMD firmware has separate terms. We use it as a cited
+reference for address-domain questions, not a source of copied C++ patches,
+firmware, Apple/Lilu components or an accelerated Windows implementation.
+Credits alone do not permit transferring its implementation to another license.
+
+AMD and Linux AMDGPU contributors - primary address/VM facts corroborated from
+the source archive identified in ../address-domains-20261003/primary-source.json
+and ../upstream-integration-20261003/provenance.json. These additions contain
+original numeric models/tests, not imported Linux functions or firmware blobs.
+
+Sebastian - original research additions and experimental integration work.
+Original new headers/tests carry Apache-2.0 identifiers where applicable.
+This does not relicense any inherited third-party material. None of the above
+projects/authors endorses this fork. Repository access is not a blanket license.
+
+Publication boundary: reviewed source commits only, on a research branch.
+No new SYS/INF/CAT package, raw Linux/Windows captures, private paths, signing
+keys/certificates, VBIOS or firmware is exported by our new research commits.
+Existing upstream history already present on the fork is preserved, not newly
+certified for licensing, correctness or safety. No main update or release.
