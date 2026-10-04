@@ -1,0 +1,27 @@
+{
+  "scope": "Original standalone Windows access gate, production execution permanently disabled",
+  "source_baseline": "8ee55bec5a352e141d1eeb8a814bc04a5f54524c",
+  "local_sources": [
+    "research/windows/dma-windows-20261004/test-adapter.c",
+    "research/windows/dma-windows-20261004/bc250_dma_adapter.c",
+    "research/windows/dma-windows-20261004/mock-wdm.h",
+    "research/windows/dma-lifecycle-20261004/bc250_dma_lifecycle.h"
+  ],
+  "primary_references": [
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/run-down-protection",
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-exwaitforrundownprotectionrelease",
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-exacquirerundownprotection",
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-exreleaserundownprotection",
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-keentercriticalregion",
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-kewaitforsingleobject",
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-keinitializemutex",
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-kereleasemutex"
+  ],
+  "reference_verified_date": "2026-10-04",
+  "new_external_implementation_copied": false,
+  "production_execution_permitted": false,
+  "gate_driver_integrated": false,
+  "actual_windows_concurrency_validated": false,
+  "pnp_pointer_publication_implemented": false,
+  "w2p_memory_ownership_proven": false
+}
