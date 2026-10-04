@@ -1,0 +1,33 @@
+METALCYAN: UTILIDAD PARA BC250-WDDM-RESEARCH - 2026-10-03
+
+Revision fijada: 4382dfa9daad77c6b83bcae0ae658a0e1015071d.
+https://github.com/amethyst8118/MetalCyan/tree/4382dfa9daad77c6b83bcae0ae658a0e1015071d
+Solo lectura de fuentes; sin ejecutar parches, copiar codigo o firmware.
+
+El README declara aceleracion Metal sobre drivers Apple adaptados con Lilu.
+No verificamos aqui funcionamiento, benchmarks ni estabilidad en macOS.
+No es un driver independiente que pueda sustituir WDDM/UMD en Windows.
+https://github.com/amethyst8118/MetalCyan/blob/4382dfa9daad77c6b83bcae0ae658a0e1015071d/README.md
+
+Pistas concretas en BC250HWL.cpp: vramPhys/wrapGetPteValue distinguen dominios
+de direcciones y SYSTEM. wrapUpdatePtesDma separa direccion y flags.
+La invalidacion usa dummy-read/ACK; el mapa SDMA conserva delta 0x1800 bytes.
+Tambien existen atajos NO transferibles: wrapSdmaCheckUcode devuelve exito
+sin verificar; accelInvalidateRequest deja de esperar tras cuatro timeouts.
+Todo esto es evidencia de codigo ajeno, NO prueba de ejecucion en Windows.
+https://github.com/amethyst8118/MetalCyan/blob/4382dfa9daad77c6b83bcae0ae658a0e1015071d/MetalCyan/BC250HWL.cpp
+
+BC250DCN.cpp: toUMA convierte direccion MC de scanout a dominio UMA.
+Su aplicacion requiere bring-up de pantalla independiente y evidencia local.
+https://github.com/amethyst8118/MetalCyan/blob/4382dfa9daad77c6b83bcae0ae658a0e1015071d/MetalCyan/BC250DCN.cpp
+
+Prioridad propuesta (no implementada en esta etapa): corroborar contra Linux
+y capturas W2P; crear vectores RAM propios de limites, overflow/carry y dominios;
+despues estudiar traduccion/TLB. Ni mapas de IOKit ni una direccion coincidente
+establecen propiedad o reserva de memoria por Windows. Mantener GPU bloqueada.
+
+Licencias distintas: fuente TSNPL 1.5; firmware AMD con licencia separada.
+No incorporamos estos materiales al fork Apache-2.0. Cualquier reutilizacion
+de codigo requeriria estudiar sus condiciones por separado.
+https://github.com/amethyst8118/MetalCyan/blob/4382dfa9daad77c6b83bcae0ae658a0e1015071d/LICENSE
+https://github.com/amethyst8118/MetalCyan/blob/4382dfa9daad77c6b83bcae0ae658a0e1015071d/MetalCyan/Firmware/LICENSE.amdgpu
