@@ -1,0 +1,43 @@
+W2P - Session transaccional CPU - 2026-10-03
+
+ALCANCE
+Fachada exclusiva que conecta el backend de tablas RAM con el registro de
+descriptores numericos y leases. No contiene consumidores de produccion ni
+permiso para GPU, DMA, MMIO, firmware, TLB o memoria reservada por Windows.
+Un numero etiquetado DMA no demuestra que el sistema haya asignado esa memoria.
+
+Un backing registrado se mapea entero (1..64 paginas), con una referencia por
+mapping. Alias en rangos VA diferentes tienen leases independientes. No se
+sobrescriben rangos ya ocupados; esta etapa no admite unmap parcial ni remap.
+Map adquiere antes de escribir y deshace la referencia si falla. Unmap conserva
+mapping y lease si falla; solo consume la referencia tras retirada CPU exitosa.
+Los identificadores consumidos al intentar Map no retroceden ni se reutilizan.
+
+CONTRATO
+Session empieza a cero, direccion estable y acceso exclusivo para toda llamada,
+incluidos callbacks. Buffers validos y estables, sin solapamientos. Callbacks no
+pueden mutar ni retener metadata interna. Free es infalible. No llamar APIs
+directas del backend/registro ni modificar estructuras despues de Init.
+Shutdown rechaza mappings/backings registrados pendientes. Termina en DEAD:
+no reiniciar ni reutilizar el mismo objeto mientras sobrevivan handles.
+BUSY rechaza reentrada, pero no es sincronizacion entre threads.
+
+PRUEBAS DEL LABORATORIO (runner no incluido en la exportacion publica)
+Solo en x64 Native Tools Command Prompt for VS2022:
+  python research\windows\vm-cpu-session-20261003\verify-cpu-only.py
+El runner verifica codigos por etapa y crea una subcarpeta unica en output.
+Regresiones previas incluyen siete unidades kernel compiladas /c, no enlazadas,
+firmadas, instaladas ni ejecutadas. Un PASS significa pruebas offline en RAM.
+
+PUBLICACION
+Exportacion acotada al fork en rama local research/cpu-models-20261003.
+Para su suite publica independiente, sin WDK ni compilacion kernel:
+  python research\offline-20261003\run-cpu-tests.py
+El driver upstream heredado NO se vuelve pasivo por exportar estos modelos.
+No ejecutar scripts upstream de instalacion o hardware para estas pruebas.
+Build 11 y el controlador instalado siguen aparte, sin modificaciones.
+
+PROXIMOS LIMITES
+Port de fixes de produccion y barreras pasivas contra upstream reciente requiere
+su revision propia. W2P necesita evidencia Windows de propiedad de memoria y
+traduccion; este modelo no la aporta. No hay paquete nuevo para instalar.

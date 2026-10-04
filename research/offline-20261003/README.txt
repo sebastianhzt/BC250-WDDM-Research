@@ -26,6 +26,10 @@ local artifacts and must not be published. The runner does not commit/push.
 Coverage includes catalog constants, selectors, GART geometry, the bounded
 numeric VM subset, DMA page-list encoding, the CPU metadata backend,
 transactional unmap and numeric backing-reference lifetimes in RAM.
+The CPU session facade couples metadata Map/Unmap with numeric backing
+references; it does not acquire a Windows DMA mapping or change hardware.
+There are nine C tests: audit and catalog check plus compile/run pairs form
+20 successful stages. The failed-child runner self-check precedes the suite.
 The unmap test also includes its predecessor backend tests as regression.
 PM4 bounds and GART backing headers are preserved as research dependencies;
 this suite does not claim standalone coverage for those two headers.

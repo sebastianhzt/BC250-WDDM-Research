@@ -19,6 +19,7 @@ FILES = (
     'inc/vm-cpu-backend-20261003/bc250_vm_cpu_backend.h',
     'inc/vm-cpu-lifetime-20261003/bc250_vm_cpu_unmap.h',
     'inc/vm-cpu-lifetime-20261003/bc250_vm_cpu_backing_refs.h',
+    'inc/vm-cpu-session-20261003/bc250_vm_cpu_session.h',
     'research/windows/gc-source-map-20260930/test-catalog.c',
     'research/windows/gc-source-map-20260930/catalog.py',
     'research/windows/gc-source-map-20260930/catalog.json',
@@ -33,6 +34,9 @@ FILES = (
     'research/windows/vm-cpu-backend-20261003/provenance.json',
     'research/windows/vm-cpu-lifetime-20261003/test-vm-unmap.c',
     'research/windows/vm-cpu-lifetime-20261003/test-backing-refs.c',
+    'research/windows/vm-cpu-session-20261003/test-vm-session.c',
+    'research/windows/vm-cpu-session-20261003/00-LEER-PRIMERO.txt',
+    'research/windows/vm-cpu-session-20261003/provenance.json',
     'research/offline-20261003/README.txt',
     'research/offline-20261003/provenance.json',
     'research/offline-20261003/audit-export.py',
@@ -76,7 +80,9 @@ def audit():
         hashes[name] = hashlib.sha256(data).hexdigest()
     for source in (ROOT / 'src').rglob('*'):
         if source.is_file() and source.suffix in ('.c', '.cpp', '.h'):
-            if 'vm-cpu-backend-20261003/' in source.read_text(encoding='utf-8', errors='replace'):
+            text = source.read_text(encoding='utf-8', errors='replace')
+            if any(prefix in text for prefix in ('vm-cpu-backend-20261003/',
+                'vm-cpu-lifetime-20261003/', 'vm-cpu-session-20261003/')):
                 raise ValueError('CPU model integrated into inherited production')
     return dict(scope='SCOPED_PUBLIC_CPU_MODEL_EXPORT', base_head=BASE,
         inherited_tracked_unchanged=True, inherited_driver_passive=False,

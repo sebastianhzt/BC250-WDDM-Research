@@ -1,0 +1,15 @@
+{
+  "scope": "original CPU-only transactional session over previously reviewed numeric models",
+  "dependencies": [
+    "inc/vm-cpu-backend-20261003/bc250_vm_cpu_backend.h",
+    "inc/vm-cpu-lifetime-20261003/bc250_vm_cpu_unmap.h",
+    "inc/vm-cpu-lifetime-20261003/bc250_vm_cpu_backing_refs.h"
+  ],
+  "source_facts": "existing VM numeric primary-source.json and DMA page-list provenance; no new hardware assumptions",
+  "contracts": ["exclusive stable caller-owned CPU objects", "infallible Free callback", "whole mapping removal only", "no raw backend/registry mutation", "terminal shutdown; no session reset while handles survive"],
+  "backing_kind": "copied numeric descriptors, not OS allocation or DMA ownership",
+  "kernel_consumer": false,
+  "hardware_tested": false,
+  "installable_package": false,
+  "acceptance": "Only a newly successful checked runner supplies offline acceptance; consult its local result JSON"
+}

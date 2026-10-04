@@ -20,6 +20,7 @@ TESTS = (
     ('vm-backend', 'vm-cpu-backend-20261003/test-vm-cpu-backend.c'),
     ('vm-unmap', 'vm-cpu-lifetime-20261003/test-vm-unmap.c'),
     ('backing-refs', 'vm-cpu-lifetime-20261003/test-backing-refs.c'),
+    ('vm-session', 'vm-cpu-session-20261003/test-vm-session.c'),
 )
 
 
