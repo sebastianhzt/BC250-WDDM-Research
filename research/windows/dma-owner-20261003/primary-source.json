@@ -1,0 +1,26 @@
+{
+  "scope": "WINDOWS_DMA_DESIGN_REFERENCES_NOT_AN_IMPLEMENTED_OS_ADAPTER",
+  "review_date": "2026-10-03",
+  "sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nc-wdm-pcancel_adapter_channel",
+      "fact": "Cancellation can fail if allocation callback already ran or is about to run. Successful cancellation means no resource allocation and no execution callback.",
+      "model_limit": "Cancel only requests cancellation; ResolveNoResource is a trusted simulated provider event, not an OS result. No concurrency or IRQL validation."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nc-wdm-pput_scatter_gather_list",
+      "fact": "The classic scatter/gather flow has an explicit cleanup routine, including transfer direction.",
+      "model_limit": "Opaque mock Put only checks exact-once lifetime and saved direction; no DMA API is called."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nc-wdm-pget_scatter_gather_list_ex",
+      "fact": "Documentation describes automatic resource release after the allocation callback returns; synchronous mode without callback requires explicit FreeAdapterObject cleanup.",
+      "model_limit": "Do not equate this retained-cookie model with GetScatterGatherListEx callback semantics. Real Windows transport not selected."
+    }
+  ],
+  "external_implementation_copied": false,
+  "windows_dma_api_tested": false,
+  "hardware_tested": false,
+  "w2p_memory_ownership": false,
+  "uma_4_or_6_gib_verified": false
+}
