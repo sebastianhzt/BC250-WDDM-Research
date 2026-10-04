@@ -1,0 +1,19 @@
+{
+  "source_baseline": "192f4de02055db0f8597050968255404779794c7",
+  "scope": "Separate request-owned snapshot variant; original request + retained trusted copied SG metadata, no real consumers",
+  "local_sources": [
+    "research/windows/dma-leases-20261004/bc250_dma_leases.c",
+    "research/windows/dma-leases-20261004/bc250_dma_leases.h",
+    "research/windows/dma-leases-20261004/test-leases.c",
+    "research/windows/dma-gate-20261004/bc250_dma_gate.c",
+    "research/windows/dma-windows-20261004/bc250_dma_adapter.c",
+    "inc/address-domains-20261003/bc250_address_domains.h"
+  ],
+  "primary_references": [
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nc-wdm-pget_scatter_gather_list_ex"
+  ],
+  "implementation_copied_from_external": false,
+  "production_execution_allowed": false,
+  "real_dma_page_binding_verified": false,
+  "hardware_tested": false
+}
