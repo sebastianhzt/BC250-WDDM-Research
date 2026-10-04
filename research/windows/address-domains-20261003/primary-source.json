@@ -1,0 +1,29 @@
+{
+  "archive_label": "cachyos-7.2.8-1.tar.gz",
+  "archive_sha256": "f848df42bd4ac31a4918188c6723660d3c6dd7591b63a6419123dcbc23ecf328",
+  "source_files": {
+    "drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c": {
+      "sha256": "3455c27f0d6f32ab1ee1afc6dd109d2805618855ebb15bdc6b1672e29707c79e",
+      "fact_lines": [1199, 1201],
+      "fact": "VRAM MC to GPU-view physical uses subtract MC base then add vram_base_offset. The inverse in our model is original algebra, not a claimed Linux pa2mc function."
+    },
+    "drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c": {
+      "sha256": "a873c4474b85ebc56437e78de07998629004f932e2eedc9d3f54289e23bf9cb0",
+      "fact_lines": [454, 457, 459, 477, 667, 670, 697, 702, 845, 846],
+      "facts": [
+        "get_vm_pde converts only non-leaf PDE without SYSTEM, then checks 48-bit/64-byte bounds.",
+        "get_vm_pte changes flags, not addresses; a generic PTE/PDE conversion rule is not justified.",
+        "vram_base_offset comes from mc_fb_offset plus XGMI node offset.",
+        "On x86_64 APU without passthrough, aper_base is mc_fb_offset rather than PCI BAR0 start.",
+        "48-bit MC and page-address masks are numeric limits, not Windows mapping or ownership proof."
+      ]
+    }
+  },
+  "public_comparison": "https://github.com/torvalds/linux/blob/v6.18/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c",
+  "public_comparison_is_not_exact_archive": true,
+  "metalcyan_reference_commit": "4382dfa9daad77c6b83bcae0ae658a0e1015071d",
+  "linux_source_distributed": false,
+  "metalcyan_source_distributed": false,
+  "hardware_tested": false,
+  "windows_memory_ownership_validated": false
+}
