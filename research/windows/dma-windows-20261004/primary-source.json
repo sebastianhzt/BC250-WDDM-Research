@@ -1,0 +1,34 @@
+{
+  "scope": "Original isolated Windows DMA candidate; typecheck and RAM fakes only",
+  "retrieved": "2026-10-04",
+  "sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iogetdmaadapter",
+      "use": "PASSIVE_LEVEL; version-3 description; adapter Version always 1; map-register limit; PutDmaAdapter lifetime"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nc-wdm-pget_scatter_gather_list_ex",
+      "use": "Bus-master only; synchronous flag/no callbacks; explicit held-resource cleanup; immediate allocation failure"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nc-wdm-pfree_adapter_object",
+      "use": "DeallocateObject releases Ex-allocated resources and map registers; not classic PutScatterGatherList"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nc-wdm-pinitialize_dma_transfer_context",
+      "use": "Opaque caller-allocated DMA_TRANSFER_CONTEXT_SIZE_V1 context; conservative one allocation request per owner, no context reuse claim"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/ns-wdm-_device_description",
+      "use": "Zero-initialized true hardware description; version-3 DmaAddressWidth, no inferred capability"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-mmprobeandlockpages",
+      "use": "Caller-owned locked MDL/page lifetime and direction permissions; candidate does not probe/lock/unlock"
+    }
+  ],
+  "runtime_execution_permitted": false,
+  "external_implementation_copied": false,
+  "hardware_dma_width_proven": false,
+  "asynchronous_cancellation_implemented": false
+}
