@@ -1,0 +1,16 @@
+{
+  "source_baseline": "8bf1f5db881b2e1c92a369f59d5da1a8aa00065c",
+  "scope": "PUBLIC snapshot to RAM CPU numeric model; aggregate hold, no production consumer",
+  "local_sources": [
+    "research/windows/dma-capture-20261004/bc250_dma_capture.h",
+    "research/windows/dma-capture-20261004/bc250_dma_capture.c",
+    "research/windows/dma-capture-20261004/test-capture.c",
+    "inc/vm-cpu-session-20261003/bc250_vm_cpu_session.h",
+    "inc/domain-backend-20261003/bc250_vm_domain_backend.h",
+    "research/windows/vm-cpu-backend-20261003/test-vm-cpu-backend.c"
+  ],
+  "implementation_copied_from_external": false,
+  "production_execution_allowed": false,
+  "real_dma_page_binding_verified": false,
+  "hardware_tested": false
+}
