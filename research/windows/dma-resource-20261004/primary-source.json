@@ -1,0 +1,24 @@
+{
+  "scope": "Original standalone gate/native resource composition, no consumer/address exposure",
+  "source_baseline": "43f7fffba6d85021f537c1c09305bcbe49569b89",
+  "local_sources": [
+    "research/windows/dma-gate-20261004/bc250_dma_gate.c",
+    "research/windows/dma-gate-20261004/bc250_dma_gate.h",
+    "research/windows/dma-gate-20261004/test-gate.c",
+    "research/windows/dma-windows-20261004/bc250_dma_adapter.c",
+    "research/windows/dma-windows-20261004/bc250_dma_adapter.h",
+    "research/windows/dma-windows-20261004/test-adapter.c"
+  ],
+  "primary_reference_manifests": [
+    "research/windows/dma-gate-20261004/primary-source.json",
+    "research/windows/dma-windows-20261004/primary-source.json"
+  ],
+  "new_windows_ddis_introduced": false,
+  "new_external_implementation_copied": false,
+  "production_execution_permitted": false,
+  "resource_driver_integrated": false,
+  "consumers_or_map_refs_supported": false,
+  "actual_windows_concurrency_validated": false,
+  "pnp_pointer_publication_implemented": false,
+  "w2p_memory_ownership_proven": false
+}
