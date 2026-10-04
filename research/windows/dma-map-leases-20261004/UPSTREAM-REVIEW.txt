@@ -1,0 +1,52 @@
+Revision de D-Ogi y Mesa, consultada 2026-10-04
+Fuente primaria GitHub/API y archivos raw fijados por commit; sin ejecutar
+scripts, instalar drivers ni importar binarios upstream.
+
+D-Ogi/amdgpu-wddm
+https://github.com/D-Ogi/amdgpu-wddm
+main = 1b75781a3a9fbe09be784cb978d99628ada28f89, IGUAL a nuestro
+research/windows/upstream-integration-20261003/provenance.json.
+Push de repositorio 2026-10-03T19:09:02Z NO implica commit nuevo en main.
+m15/replay-wake-registered-2026-10-02 =
+e9f5e701ac0412e1cf39e217075d1f8ed313d120 (2026-10-02T16:51:09Z).
+GitHub compare main...rama: behind, ahead0/behind127; no novedad respecto a main.
+Commit evita drenar otros pools si no hay listas abiertas del pool en Reset:
+https://github.com/D-Ogi/amdgpu-wddm/commit/e9f5e701ac0412e1cf39e217075d1f8ed313d120
+m15/shell-next eaf62b23beb37eeb584d55977de9c55444edf1c7
+(2026-10-02T05:40:50Z) solo aclara diagnostico de formato stored/view en UMD.
+No corrige nuestra propiedad W2P ni prueba DMA/VRAM en esta maquina.
+Su codigo propio conserva PolyForm Noncommercial + Required Notices; no copiar
+automaticamente a nuestro codigo Apache-2.0. No codigo copiado esta sesion.
+
+D-Ogi/mesa-amdgpu-wddm
+https://github.com/D-Ogi/mesa-amdgpu-wddm
+default = amdgpu-wddm/readme, NO main (main es mirror de Mesa).
+README head04fdc9cf99aaab1bad7cc3e4d8157a4e7f8bb5c8
+fecha commit2026-10-02T22:45:36Z, describe snapshot registrado2026-10-03.
+https://github.com/D-Ogi/mesa-amdgpu-wddm/blob/04fdc9cf99aaab1bad7cc3e4d8157a4e7f8bb5c8/README-amdgpu-wddm.md
+SHA256 raw UTF8 BE7A8061E07FD376D2C9D3F8B0D5BB1481EE1A5ADBC7456C2490B32875184245.
+Ramas utiles: radv-wddm2-consolidated940ab0eb9678f2c173d5bee3fadce9cffdd5d850,
+d3d10umd-consolidated71f2e28c1b14f60ecbe11e543279bc76ea0c1237,
+radv-wddm2-hosted-main48546c732a832b5ed0c97d28fdcf335a9960cc06,
+registered-2026-10-02 ae98c795516061670b4de42a12809d6967cfcf49.
+Fecha/push no significa que todas las ramas sean nuevas o probadas.
+El README documenta dos binarios registrados SIN fuente publicada exacta,
+y ramas de desarrollo compiladas pero no desplegadas; no reproducibilidad total.
+El ultimo commit48546c73 (2026-09-30T05:45:44Z) es cache de librerias RT,
+no arreglo de W2P o propiedad DMA.
+
+Referencia de lifetime:
+https://github.com/D-Ogi/mesa-amdgpu-wddm/blob/940ab0eb9678f2c173d5bee3fadce9cffdd5d850/src/amd/vulkan/winsys/wddm2/radv_wddm2_bo.c
+SHA256 raw UTF8 ABC107F7BCD9C214828CCF4EC481BD9DD55417C3DE12DCBC56999A35D41E6E45.
+bo_destroy distingue borrowed de recursos propios; reserve/map esperan fences
+de paging. Aplicacion aqui: deuda explicita por cada mapa y retiro por etapas,
+NO tomar prestado handle/direccion Windows ni tratar CPU Unmap como fence GPU.
+Su contrato usa D3DKMT/miniport privado, distinto de nuestro WDM de investigacion.
+Las modificaciones de Mesa declaran MIT, copyright2026 D-Ogi y upstream Mesa;
+posible futura integracion mantendria atribuciones y licencia por archivo.
+Nada de ese codigo, patches, headers ABI o binarios se importa esta sesion.
+
+Decision
+Implementar SOLO la asociacion ORIGINAL RAM de referencias y mapas CPU.
+No reemplazar installed driver, no actualizar firmware, VM/TLB/GART ni SDMA.
+Los fences reales, memoria Windows y ABI con Mesa siguen siendo pasos separados.

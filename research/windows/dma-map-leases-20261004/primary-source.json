@@ -1,0 +1,21 @@
+{
+  "source_baseline": "fc7acd61e906f72dde9b6cf03cd2b8fd81f6577b",
+  "scope": "Original RAM association; independent synthetic pages, public fake lease APIs only",
+  "local_sources": [
+    "research/windows/dma-leases-20261004/bc250_dma_leases.c",
+    "research/windows/dma-leases-20261004/bc250_dma_leases.h",
+    "research/windows/dma-leases-20261004/test-leases.c",
+    "inc/vm-cpu-session-20261003/bc250_vm_cpu_session.h",
+    "research/windows/vm-cpu-backend-20261003/test-vm-cpu-backend.c"
+  ],
+  "upstream": {
+    "dogi_main": "1b75781a3a9fbe09be784cb978d99628ada28f89",
+    "mesa_readme": "04fdc9cf99aaab1bad7cc3e4d8157a4e7f8bb5c8",
+    "mesa_bo": "940ab0eb9678f2c173d5bee3fadce9cffdd5d850",
+    "implementation_copied": false
+  },
+  "production_execution_allowed": false,
+  "real_map_consumers_supported": false,
+  "synthetic_pages_prove_dma_binding": false,
+  "hardware_tested": false
+}
