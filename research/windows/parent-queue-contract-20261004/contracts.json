@@ -1,0 +1,25 @@
+{
+  "scope":"PROPOSED_WDM_OS_BOUNDARIES_AND_PRIVATE_QUEUE_DESIGN",
+  "production_execution_allowed":false,
+  "native_adapter_implemented":false,
+  "queue_scope":["private_cancelable_request_design_only"],
+  "current_driver_routes":[
+    {"route":"named_diagnostic_PASSIVE","queue_authorized":false,"decision":"retain synchronous bounded metadata queries and endpoint DACL"},
+    {"route":"FDO_PnP_START_PASSIVE","queue_authorized":false,"decision":"future reviewed completion adapter; keep current forwarding until implemented"},
+    {"route":"FDO_PnP_query_cancel_stop_remove","queue_authorized":false,"decision":"stack-specific PnP rules; not generic request cancellation"},
+    {"route":"FDO_power_DISPATCH","queue_authorized":false,"decision":"keep pass-through; no universal pending-operation FIFO or new deferral authorized"},
+    {"route":"private_cancelable_request_not_yet_exposed","queue_authorized":false,"decision":"CSQ design model only; no IOCTL or actual OS request accepted"}
+  ],
+  "model_assumptions":[
+    "one abstract private request, no payload or IRP pointer",
+    "legitimate OS dispatch gives bootstrap FDO/code entry validity; not arbitrary kernel calls",
+    "explicit envelope FDO refs prepared before publishing callbacks or CSQ context",
+    "kernel work FDO ref persists through actual worker return, distinct from driver body release",
+    "IoSetCompletionRoutineEx supplies completion module return guarantee, not context allocation",
+    "kernel return transitions are ENVIRONMENT axioms, not driver-created completion flags",
+    "abstract CSQ atomic ownership arbitration, not CSQ callbacks/lock implementation",
+    "abstract lower terminal postprocessing, not exact frozen completion second-worker behavior"
+  ],
+  "forbidden":["generic_PnP_power_FIFO","local_complete_forwarded_incoming_IRP","IoCancelIrp_on_foreign_incoming_IRP","cancel_bit_or_return_as_finality","wait_before_REMOVE_forward","wait_inside_dependent_worker","reset_remove_lock","force_unknown_release","ObReference_DriverObject_as_module_pin","driver_flag_as_kernel_return_proof"],
+  "integration_requirements":["actual_FDO_and_control_endpoint_lifetime_audit","exact_envelope_ref_acquire_and_cleanup_wrappers","native_Csq_callback_and_IRP_ownership_review","pending_and_insert_linearization","initial_worker_and_completion_worker_separate_resources","stack_specific_classifier_power_dependencies","unknown_obligation_remove_unload_recovery_policy","native_FALSE_adapter_tests","separate_POSTSIGN_and_manual_recovery_gate"]
+}

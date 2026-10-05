@@ -1,0 +1,22 @@
+{
+  "reviewed_date":"2026-10-04",
+  "scope":"official OS contracts used as conditional design assumptions; not native implementation evidence",
+  "sources":[
+    {"url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/using-remove-locks","supports":"separate operation tags and REMOVE forward-before-passive-wait; no remove lock reinitialize"},
+    {"url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-ioreleaseremovelockandwait","supports":"PASSIVE REMOVE drain; not generic worker wait"},
+    {"url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iosetcompletionroutineex","supports":"module return contract vs arbitrary Context memory; mandatory forward after successful registration"},
+    {"url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/releasing-driver-allocated-resources","supports":"IoQueueWorkItem contributes associated device reference that prevents unload while outstanding"},
+    {"url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/system-worker-threads","supports":"work dequeued before callback; free work inside callback not callback-return proof"},
+    {"url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/cancel-safe-irp-queues","supports":"atomic queued ownership/cancellation; custom CSQ callbacks still required"},
+    {"url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iocsqremovenextirp","supports":"uncancelled IRPs returned; DriverContext[3] reserved"},
+    {"url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iocancelirp","supports":"do not arbitrarily cancel foreign incoming IRPs; boolean/bit not completion"},
+    {"url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iodeletedevice","supports":"delete only once; pending deletion until object refs gone"},
+    {"url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/unload-routine-environment","supports":"unload/DriverEntry failure are distinct; device references/notifications require cleanup"}
+  ],
+  "source_audit":[
+    "research/windows/diagnostic-package-build22-20261004/source/src/kmd/bc250_diagnostic_driver.c",
+    "research/windows/diagnostic-package-build22-20261004/source/src/kmd/amdbc250_dream_pnp.c",
+    "research/windows/lifetime-completion-20261004/README.txt"
+  ],
+  "source_audit_hashes_in_result":"protected_source_sha256"
+}
