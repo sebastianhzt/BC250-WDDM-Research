@@ -1,0 +1,11 @@
+{
+  "scope": "QUERY_COMPATIBLE_ADMISSION_NATIVE_FALSE_RAM_ONLY",
+  "sources": [
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-keareapcsdisabled",
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-keacquirespinlock",
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-kereleasespinlock"
+  ],
+  "external_code_copied": false,
+  "real_pnp_power_participation": false,
+  "hardware_access": false
+}
