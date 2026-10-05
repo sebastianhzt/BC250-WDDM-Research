@@ -1,0 +1,9 @@
+{
+  "scope": "official DDI contracts, not evidence that fixture implements OS lifetimes",
+  "reviewed_utc_date": "2026-10-04",
+  "sources": [
+    {"url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iosetcompletionroutineex","note":"Check registration status; after success original dispatch must forward. Context nonpaged; real module/DDI guarantees are not simulated proof."},
+    {"url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-ioqueueworkitem","note":"Queues worker with driver context; future hold must be prepared before modeled queue, even if fixture simulates immediate execution."},
+    {"url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/run-down-protection","note":"Acquire before object access, release after access. Parent/module authority remains independent; not replaced by this RAM token model."}
+  ]
+}
