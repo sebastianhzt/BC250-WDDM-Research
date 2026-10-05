@@ -1,0 +1,13 @@
+{
+  "checked_utc_date": "2026-10-04",
+  "scope": "native-FALSE DISPATCH intake metadata guard, NOT an IRP queue",
+  "sources": [
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/dispatchpower-routines", "use": "power direction ordering/dependencies; no universal FIFO inference"},
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/queuing-and-dequeuing-irps", "use": "synchronized and cancel-safe real queues need separate ownership policy"},
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/system-worker-threads", "use": "PASSIVE worker execution and bounded work; no actual queue implemented here"}
+  ],
+  "universal_fifo_is_not_assumed_safe": true,
+  "stack_specific_dependency_policy_implemented": false,
+  "initial_os_dispatch_deferral_implemented": false,
+  "actual_irp_ownership_transferred": false
+}
