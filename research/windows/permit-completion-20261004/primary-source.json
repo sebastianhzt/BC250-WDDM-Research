@@ -1,0 +1,14 @@
+{
+  "checked_utc_date": "2026-10-04",
+  "scope": "RAM-only permit/deferred-completion composition; external fixture ALL-returns witness",
+  "sources": [
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iosetcompletionroutineex", "use": "registration result must be checked; success obligates forwarding so callback executes"},
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-ioqueueworkitem", "use": "VOID queue API at <=DISPATCH; fixture worker may run before queue/callback return"},
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-ioreleaseremovelockandwait", "use": "real remove-lock drain is separate from snapshots and synthetic zero counts"}
+  ],
+  "test_world_permit_completion_composed": true,
+  "fixture_witness_is_production_lifetime_mechanism": false,
+  "new_native_adapter": false,
+  "actual_os_irp_cancellation_or_initial_deferral": false,
+  "hardware_authorization": false
+}
