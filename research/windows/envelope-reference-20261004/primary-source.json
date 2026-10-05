@@ -1,0 +1,16 @@
+{
+  "scope":"ISOLATED_NATIVE_FALSE_REFERENCE_REMOVE_TAG_HOLD_ADAPTER",
+  "observed_date":"2026-10-04",
+  "sources":[
+    {"url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-obreferenceobject","role":"storage reference after independently valid object lookup; not a stale-pointer/bootstrap/module proof"},
+    {"url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-obdereferenceobject","role":"final reference drop can delete storage; no Parent/receipt access after last drop"},
+    {"url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-ioacquireremovelock","role":"exact acquired tag must be released; failed acquire does not authorize new operation"},
+    {"url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/releasing-driver-allocated-resources","role":"OS work-item-associated object reference is separate from driver envelope reference and code return obligations"}
+  ],
+  "frozen_life_component":"research/windows/context-lifetime-20261004/bc250_context_lifetime.c",
+  "existing_build22_source":"research/windows/diagnostic-package-build22-20261004/source/src/kmd/bc250_diagnostic_driver.c",
+  "no_external_code_copied":true,
+  "native_execution_enabled":false,
+  "hardware_test_gate_met":false,
+  "new_installable_package":false
+}
