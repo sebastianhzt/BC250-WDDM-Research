@@ -1,0 +1,16 @@
+{
+  "checked_utc_date": "2026-10-04",
+  "scope": "native-FALSE completion prototype; fake DDIs only",
+  "sources": [
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iosetcompletionroutineex", "use": "check registration; successful registration requires forwarding"},
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-ioqueueworkitem", "use": "VOID queue API, preallocated work, DelayedWorkQueue"},
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iofreeworkitem", "use": "free unqueued or dequeued worker, not still queued"},
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-ioacquireremovelock", "use": "exact successful acquisition, matching tags"},
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-ioreleaseremovelock", "use": "balanced tags after completed I/O; removal coordinator not supplied"},
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nc-wdm-io_completion_routine", "use": "completion <=DISPATCH, MRPR retains IRP"},
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/system-worker-threads", "use": "PASSIVE worker, bounded work, no doublequeue"}
+  ],
+  "early_worker_model_is_inference_not_os_smp_validation": true,
+  "real_driver_or_power_dispatch_integration": false,
+  "actual_os_irp_forwarded": false
+}
