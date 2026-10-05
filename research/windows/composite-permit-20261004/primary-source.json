@@ -1,0 +1,15 @@
+{
+  "checked_utc_date": "2026-10-04",
+  "scope": "native-FALSE participant metadata permit, NOT physical availability",
+  "sources": [
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/introduction-to-spin-locks", "use": "resident short lock regions, no callbacks/nested locks/waits across operation"},
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-keacquirespinlock", "use": "<=DISPATCH acquisition; local saved IRQL and prompt release before metadata step"},
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-ioreleaseremovelockandwait", "use": "actual removal wait/lifetime is separate, not derived from permit snapshot pins0"}
+  ],
+  "all_writer_participation_implemented_in_driver": false,
+  "permit_bound_to_source": false,
+  "physical_availability_proved": false,
+  "long_lived_spinlock_held": false,
+  "unregistered_writer_negative_fixture": true,
+  "actual_hardware_or_async_dma_authorization": false
+}
