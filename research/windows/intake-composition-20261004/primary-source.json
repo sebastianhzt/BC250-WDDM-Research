@@ -1,0 +1,14 @@
+{
+  "checked_utc_date": "2026-10-04",
+  "scope": "RAM composition fixtures, historical validation not a reservation",
+  "sources": [
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/system-worker-threads", "use": "bounded PASSIVE worker; no initial OS workqueue implemented by fixtures"},
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-ioreleaseremovelock", "use": "matching owned remove-lock tags; counter/Inspect does not prove external all-returns anchor"},
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-exacquirerundownprotection", "use": "rundown protects known object use, not physical availability or admission across separate historical samples"}
+  ],
+  "historical_sample_is_reservation": false,
+  "negative_post_validation_window_tested": true,
+  "all_returns_witness_is_ram_fixture_only": true,
+  "new_native_component": false,
+  "real_initial_dispatch_deferral": false
+}
