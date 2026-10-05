@@ -1,0 +1,12 @@
+{
+  "scope": "BUS_INTERFACE_QUERY_NATIVE_FALSE_NOT_OS_INTEGRATION",
+  "sources": [
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/obtaining-device-configuration-information-at-irql---dispatch-level",
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iobuildsynchronousfsdrequest",
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/irp-mn-query-interface"
+  ],
+  "external_code_copied": false,
+  "os_owned_irp_no_manual_free": true,
+  "indefinite_nonalertable_wait_not_time_bounded": true,
+  "actual_pnp_admission_implemented": false
+}
