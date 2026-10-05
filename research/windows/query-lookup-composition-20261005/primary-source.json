@@ -1,0 +1,11 @@
+{
+  "scope": "EXACT_LOOKUP_QUERY_LIFETIME_COMPOSITION_RAM_ONLY",
+  "frozen_gate_not_composed": "Bc250DmaGateEnter retains KeEnterCriticalRegion until Leave",
+  "query_contract": "PASSIVE kernel APCs enabled; no publication/spin lock across send/wait",
+  "sources": [
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-keentercriticalregion",
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iobuildsynchronousfsdrequest"
+  ],
+  "actual_operation_admission_implemented": false,
+  "external_code_copied": false
+}
