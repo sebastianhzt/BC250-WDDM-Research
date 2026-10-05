@@ -1,0 +1,11 @@
+{
+  "scope": "BOUNDED_GETBUS_READ_CANDIDATE_NATIVE_FALSE_RAM_NOT_HARDWARE",
+  "sources": [
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/ns-wdm-_bus_interface_standard",
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nc-wdm-get_set_device_data"
+  ],
+  "external_code_copied": false,
+  "bus_interface_queried_from_os": false,
+  "physical_availability_proved": false,
+  "bounded_bytes_not_bounded_time": true
+}
