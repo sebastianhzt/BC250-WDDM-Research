@@ -1,0 +1,14 @@
+{
+  "checked_utc_date": "2026-10-04",
+  "scope": "stable parent, opaque child lifetime candidate; NOT OS parent/module lifetime",
+  "sources": [
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/run-down-protection", "use": "shared object access must acquire protection before use and release after access; actual Windows rundown not replaced or executed here"},
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/introduction-to-spin-locks", "use": "short resident lock regions; no spinlock held during body or payload dereference"}
+  ],
+  "native_policy_false": true,
+  "parent_module_or_fdo_anchor_implemented": false,
+  "tokens_and_outputs_outside_child_allocation_required": true,
+  "premature_caller_release_negative_fixture": true,
+  "previous_completion_witness_replaced": false,
+  "hardware_authorization": false
+}
