@@ -1,0 +1,11 @@
+{
+  "scope": "OFFLINE_EXACT_LOOKUP_COMPOSITION_NOT_DRIVER_OR_HARDWARE",
+  "sources": [
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-ioacquireremovelock",
+    "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/using-remove-locks"
+  ],
+  "external_code_copied": false,
+  "actual_lookup_source": "research/windows/diagnostic-package-build22-20261004/source/src/kmd/amdbc250_dream_pnp.c",
+  "native_driver_changed": false,
+  "physical_availability_proved": false
+}
