@@ -1,0 +1,15 @@
+{
+  "checked_utc_date": "2026-10-04",
+  "scope": "RAM-only permit/Source binding; no new native adapter or hardware authority",
+  "sources": [
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/introduction-to-spin-locks", "use": "short resident lock regions; no lock retained across bounded metadata use"},
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/handling-an-irp-mn-surprise-removal-request", "use": "actual physical disappearance/OS handling is separate from retaining cached metadata; no real IRP flow implemented"}
+  ],
+  "frozen_source_modified": false,
+  "test_world_writer_routes_bound": true,
+  "actual_driver_writer_routes_bound": false,
+  "real_atomic_provider_implemented": false,
+  "actual_initial_deferral_implemented": false,
+  "hardware_authorization": false,
+  "post_release_output_is_historical": true
+}
