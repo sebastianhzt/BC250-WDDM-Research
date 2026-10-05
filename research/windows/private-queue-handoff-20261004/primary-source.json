@@ -1,0 +1,13 @@
+{
+  "scope":"CSQ_SHAPED_RAM_PRIVATE_HANDOFF_NOT_NATIVE_CSQ_OR_OS_LIFETIME",
+  "observed_date":"2026-10-04",
+  "sources":[
+    {"url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/cancel-safe-irp-queues","role":"driver callbacks and OS synchronization are separate; fake callbacks here do not validate Windows implementation"},
+    {"url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iocsqinsertirp","role":"void-shaped insert; OS marks inserted IRP pending; precancel bypasses insertion callback; fixture premarks before transfer but does not prove actual ABI"},
+    {"url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iocsqremovenextirp","role":"removal gives an uncancelled queued request; later cancellation cannot create another queue owner"}
+  ],
+  "frozen_implementations_used":["research/windows/context-lifetime-20261004/bc250_context_lifetime.c","research/windows/context-lifetime-20261004/bc250_context_lifetime.h"],
+  "no_external_implementation_copied":true,
+  "native_adapter_implemented":false,
+  "hardware_or_installation_authorized":false
+}
