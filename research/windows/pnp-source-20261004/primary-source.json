@@ -1,0 +1,13 @@
+{
+  "checked_utc_date": "2026-10-04",
+  "scope": "source producer candidate, fake DDIs only; no installed driver integration",
+  "sources": [
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-exacquirerundownprotection", "use": "acquire/release lifetime, not pointer publication or physical availability"},
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-exwaitforrundownprotectionrelease", "use": "external coordinator; wait outside metadata lock"},
+    {"url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-obreferenceobject", "use": "two object refs; no access checks/remove-lock/device-state proof"}
+  ],
+  "local_predecessors": ["../pci-pnp-capture-20261004", "../diagnostic-package-build22-20261004/source/src/kmd/amdbc250_dream_pnp.c"],
+  "real_pnp_or_power_completions_implemented": false,
+  "object_reference_execution": "RAM fake only",
+  "hardware_tested": false
+}
